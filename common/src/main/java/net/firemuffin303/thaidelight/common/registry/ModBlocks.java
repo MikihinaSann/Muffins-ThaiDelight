@@ -29,18 +29,20 @@ import net.firemuffin303.thaidelight.common.block.vegetations.durian.*;
 import net.firemuffin303.thaidelight.common.world.trees.DurianTreeGrower;
 import net.firemuffin303.thaidelight.common.world.trees.MangoTreeGrower;
 import net.firemuffin303.thaidelight.common.world.trees.PapayaTreeGrower;
-import net.firemuffin303.thaidelight.mixin.accessor.block.BlocksAccessor;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -48,7 +50,6 @@ import net.minecraft.world.level.material.PushReaction;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 
-import static net.firemuffin303.thaidelight.mixin.accessor.block.BlocksAccessor.log;
 import static net.minecraft.world.level.block.Blocks.*;
 
 public class ModBlocks {
@@ -81,9 +82,9 @@ public class ModBlocks {
     //Wild Crops
     public static final Supplier<Block> WILD_PEPPER_CROP = register("wild_pepper", createWildCropBlock(MobEffects.CONFUSION,6,BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
     public static final Supplier<Block> WILD_BASIL = register("wild_basil",createWildCropBlock(MobEffects.HUNGER,6,BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
-    public static final Supplier<Block> POTTED_BASIL = register("potted_basil",() -> BlocksAccessor.flowerPot(ModBlocks.WILD_BASIL.get()));
+    public static final Supplier<Block> POTTED_BASIL = register("potted_basil",() -> flowerPot(ModBlocks.WILD_BASIL.get()));
     public static final Supplier<Block> WILD_HOLY_BASIL = register("wild_holy_basil",createWildCropBlock(MobEffects.HUNGER,6,BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
-    public static final Supplier<Block> POTTED_HOLY_BASIL = register("potted_holy_basil",() -> BlocksAccessor.flowerPot(ModBlocks.WILD_HOLY_BASIL.get()));
+    public static final Supplier<Block> POTTED_HOLY_BASIL = register("potted_holy_basil",() -> flowerPot(ModBlocks.WILD_HOLY_BASIL.get()));
 
 
 
@@ -92,15 +93,15 @@ public class ModBlocks {
     public static final Supplier<Block> LIME_PLANT = register("lime_plant",() -> new LimePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().noCollission().sound(SoundType.AZALEA_LEAVES).ignitedByLava().pushReaction(PushReaction.DESTROY)));
 
     public static final Supplier<Block> LIME_SAPLING = register("lime_sapling",() -> new LimeSaplingBlock(BlockBehaviour.Properties.copy(OAK_SAPLING)));
-    public static final Supplier<Block> POTTED_LIME_SAPLING = register("potted_lime_sapling",() ->  BlocksAccessor.flowerPot(ModBlocks.LIME_SAPLING.get()));
+    public static final Supplier<Block> POTTED_LIME_SAPLING = register("potted_lime_sapling",() ->  flowerPot(ModBlocks.LIME_SAPLING.get()));
     public static final Supplier<Block> LIME_BLOCK = register("lime_block",() -> new LimeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(1.0F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY)));
 
     public static final Supplier<Block> PEPPER_CROP = register("pepper_crop",() -> new PepperCropBlock(BlockBehaviour.Properties.copy(Blocks.POTATOES)));
     public static final Supplier<Block> BUDDING_PEPPER_CROP = register("budding_pepper_crop",createBuddingPepperBlock(BlockBehaviour.Properties.copy(POTATOES)));
 
     //Durian
-    public static final Supplier<Block> DURIAN_SAPLING = register("durian_sapling",() ->  new ModSaplingBlock(new DurianTreeGrower(), BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
-    public static final Supplier<Block> POTTED_DURIAN_SAPLING = register("potted_durian_sapling",() -> BlocksAccessor.flowerPot(DURIAN_SAPLING.get()));
+    public static final Supplier<Block> DURIAN_SAPLING = register("durian_sapling",() ->  new ModSaplingBlock(DurianTreeGrower.GROWER, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
+    public static final Supplier<Block> POTTED_DURIAN_SAPLING = register("potted_durian_sapling",() -> flowerPot(DURIAN_SAPLING.get()));
     public static final Supplier<Block> DURIAN_FLOWER = register("durian_flower",() -> new DurianFlowerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).instabreak().noCollission().sound(SoundType.SPORE_BLOSSOM).pushReaction(PushReaction.DESTROY).randomTicks()));
 
     public static final Supplier<Block> HANGING_DURIAN = register("hanging_durian",() -> new HangingDurianBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(1.0F).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY).randomTicks()));
@@ -144,7 +145,7 @@ public class ModBlocks {
     ));
 
     public static final Supplier<Block> DURIAN_PRESSURE_PLATE = register("durian_pressure_plate",() -> new ModPressurePlateBlock(
-            PressurePlateBlock.Sensitivity.EVERYTHING,
+            ModBlockSetTypes.DURIAN_BLOCK_SET,
             BlockBehaviour.Properties.of()
                     .mapColor(DURIAN_PLANKS.get().defaultMapColor())
                     .forceSolidOn()
@@ -152,10 +153,10 @@ public class ModBlocks {
                     .noCollission()
                     .strength(0.5f)
                     .ignitedByLava()
-                    .pushReaction(PushReaction.DESTROY),ModBlockSetTypes.DURIAN_BLOCK_SET
+                    .pushReaction(PushReaction.DESTROY)
     ));
 
-    public static final Supplier<Block> DURIAN_BUTTON = register("durian_button",() -> BlocksAccessor.woodenButton(ModBlockSetTypes.DURIAN_BLOCK_SET));
+    public static final Supplier<Block> DURIAN_BUTTON = register("durian_button",() -> woodenButton(ModBlockSetTypes.DURIAN_BLOCK_SET));
     public static final Supplier<Block> DURIAN_SIGN = register("durian_sign",createStandingSignBlock(
             ThaiDelightCommon.modid("entity/signs/durian"),
             BlockBehaviour.Properties.of()
@@ -220,13 +221,13 @@ public class ModBlocks {
             return super.mayPlaceOn(blockState, blockGetter, blockPos) || blockState.is(BlockTags.SAND);
         }
     });
-    public static final Supplier<Block> POTTED_COCONUT_SAPLING = register("potted_coconut_sapling",() ->BlocksAccessor.flowerPot(COCONUT_SAPLING.get()));
+    public static final Supplier<Block> POTTED_COCONUT_SAPLING = register("potted_coconut_sapling",() ->flowerPot(COCONUT_SAPLING.get()));
     public static final Supplier<Block> COCONUT_LEAF = register("coconut_leaf",() ->new CoconutLeafBlock(BlockBehaviour.Properties.of()
             .mapColor(MapColor.PLANT)
             .strength(0.2F)
             .sound(SoundType.GRASS)
             .noOcclusion()
-            .isValidSpawn(BlocksAccessor::ocelotOrParrot)
+            .isValidSpawn(ModBlocks::ocelotOrParrot)
             .isSuffocating((b,a,c) -> false)
             .isViewBlocking((b,a,c) -> false)
             .ignitedByLava()
@@ -237,7 +238,7 @@ public class ModBlocks {
             .strength(0.2F)
             .sound(SoundType.GRASS)
             .noOcclusion()
-            .isValidSpawn(BlocksAccessor::ocelotOrParrot)
+            .isValidSpawn(ModBlocks::ocelotOrParrot)
             .isSuffocating((b,a,c) -> false)
             .isViewBlocking((b,a,c) -> false)
             .ignitedByLava()
@@ -248,7 +249,7 @@ public class ModBlocks {
             .strength(0.2F)
             .sound(SoundType.GRASS)
             .noOcclusion()
-            .isValidSpawn(BlocksAccessor::ocelotOrParrot)
+            .isValidSpawn(ModBlocks::ocelotOrParrot)
             .isSuffocating((b,a,c) -> false)
             .isViewBlocking((b,a,c) -> false)
             .ignitedByLava()
@@ -291,12 +292,12 @@ public class ModBlocks {
             .instrument(NoteBlockInstrument.BASS)
             .strength(3.0f)
             .noOcclusion()
-            .isValidSpawn(BlocksAccessor::never)
+            .isValidSpawn(ModBlocks::never)
             .ignitedByLava(),
             ModBlockSetTypes.COCONUT_BLOCK_SET
     ));
     public static final Supplier<Block> COCONUT_PRESSURE_PLATE = register("coconut_pressure_plate",() ->new ModPressurePlateBlock(
-            PressurePlateBlock.Sensitivity.EVERYTHING,
+            ModBlockSetTypes.COCONUT_BLOCK_SET,
             BlockBehaviour.Properties.of()
                     .mapColor(COCONUT_PLANKS.get().defaultMapColor())
                     .forceSolidOn()
@@ -304,10 +305,9 @@ public class ModBlocks {
                     .noCollission()
                     .strength(0.5f)
                     .ignitedByLava()
-                    .pushReaction(PushReaction.DESTROY),
-            ModBlockSetTypes.COCONUT_BLOCK_SET
+                    .pushReaction(PushReaction.DESTROY)
     ));
-    public static final Supplier<Block> COCONUT_BUTTON = register("coconut_button",() ->BlocksAccessor.woodenButton(ModBlockSetTypes.COCONUT_BLOCK_SET));
+    public static final Supplier<Block> COCONUT_BUTTON = register("coconut_button",() ->woodenButton(ModBlockSetTypes.COCONUT_BLOCK_SET));
     public static final Supplier<Block> COCONUT_SIGN = register("coconut_sign",createStandingSignBlock(
             ThaiDelightCommon.modid("entity/signs/coconut"),
             BlockBehaviour.Properties.of()
@@ -357,8 +357,8 @@ public class ModBlocks {
     public static final Supplier<Block> COCONUT_LEAF_CARPET = register("coconut_leaf_carpet",() ->new CarpetBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).strength(0.1f).sound(SoundType.MOSS_CARPET).pushReaction(PushReaction.DESTROY)));
 
     //----------------- Mango -----------
-    public static final Supplier<Block> MANGO_SAPLING = register("mango_sapling",() ->new ModSaplingBlock(new MangoTreeGrower(),BlockBehaviour.Properties.copy(OAK_SAPLING)));
-    public static final Supplier<Block> POTTED_MANGO_SAPLING = register("potted_mango_sapling",() ->BlocksAccessor.flowerPot(ModBlocks.MANGO_SAPLING.get()));
+    public static final Supplier<Block> MANGO_SAPLING = register("mango_sapling",() ->new ModSaplingBlock(MangoTreeGrower.GROWER,BlockBehaviour.Properties.copy(OAK_SAPLING)));
+    public static final Supplier<Block> POTTED_MANGO_SAPLING = register("potted_mango_sapling",() ->flowerPot(ModBlocks.MANGO_SAPLING.get()));
     public static final Supplier<Block> MANGO_LEAVES = register("mango_leaves",() ->new MangoLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
     public static final Supplier<Block> STACKABLE_MANGO_BLOCK = register("stackable_mango_block",() -> new StackableMangoBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(1.0F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final Supplier<Block> HANGING_MANGO_BLOCK = register("mango_block",() ->new HangingMangoBlock(
@@ -402,12 +402,12 @@ public class ModBlocks {
             .instrument(NoteBlockInstrument.BASS)
             .strength(3.0f)
             .noOcclusion()
-            .isValidSpawn(BlocksAccessor::never)
+            .isValidSpawn(ModBlocks::never)
             .ignitedByLava(),
             ModBlockSetTypes.MANGO_BLOCK_SET
     ));
     public static final Supplier<Block> MANGO_PRESSURE_PLATE = register("mango_pressure_plate",() ->new ModPressurePlateBlock(
-            PressurePlateBlock.Sensitivity.EVERYTHING,
+            ModBlockSetTypes.MANGO_BLOCK_SET,
             BlockBehaviour.Properties.of()
                     .mapColor(MANGO_PLANKS.get().defaultMapColor())
                     .forceSolidOn()
@@ -415,10 +415,9 @@ public class ModBlocks {
                     .noCollission()
                     .strength(0.5f)
                     .ignitedByLava()
-                    .pushReaction(PushReaction.DESTROY),
-            ModBlockSetTypes.MANGO_BLOCK_SET
+                    .pushReaction(PushReaction.DESTROY)
     ));
-    public static final Supplier<Block> MANGO_BUTTON = register("mango_button",() ->BlocksAccessor.woodenButton(ModBlockSetTypes.MANGO_BLOCK_SET));
+    public static final Supplier<Block> MANGO_BUTTON = register("mango_button",() ->woodenButton(ModBlockSetTypes.MANGO_BLOCK_SET));
     public static final Supplier<Block> MANGO_SIGN = register("mango_sign",createStandingSignBlock(
             ThaiDelightCommon.modid("entity/signs/mango"),
             BlockBehaviour.Properties.of()
@@ -479,7 +478,7 @@ public class ModBlocks {
             .strength(0.2F)
             .sound(SoundType.AZALEA_LEAVES)
             .noOcclusion()
-            .isValidSpawn(BlocksAccessor::ocelotOrParrot)
+            .isValidSpawn(ModBlocks::ocelotOrParrot)
             .isSuffocating((b,a,c) -> false)
             .isViewBlocking((b,a,c) -> false)
             .ignitedByLava()
@@ -493,7 +492,7 @@ public class ModBlocks {
             .strength(0.2F)
             .sound(SoundType.AZALEA_LEAVES)
             .noOcclusion()
-            .isValidSpawn(BlocksAccessor::ocelotOrParrot)
+            .isValidSpawn(ModBlocks::ocelotOrParrot)
             .isSuffocating((b,a,c) -> false)
             .isViewBlocking((b,a,c) -> false)
             .ignitedByLava()
@@ -519,7 +518,7 @@ public class ModBlocks {
     ));
     public static final Supplier<Block> WALL_PAPAYA_FLOWER = register("wall_papaya_flower",() -> new WallPapayaFlowerBlock(BlockBehaviour.Properties.copy(PAPAYA_FLOWER.get())));
 
-    public static final Supplier<Block> PAPAYA_SAPLING = register("papaya_sapling",() ->new ModSaplingBlock(new PapayaTreeGrower(), BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
+    public static final Supplier<Block> PAPAYA_SAPLING = register("papaya_sapling",() ->new ModSaplingBlock(PapayaTreeGrower.GROWER, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
     public static final Supplier<Block> PAPAYA_CROP = register("papaya_crop",() ->new PapayaCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
 
     public static final Supplier<Block> STACKABLE_PAPAYA = register("stackable_papaya",() -> new StackablePapayaBlock(BlockBehaviour.Properties.copy(ModBlocks.LIME_BLOCK.get()), () -> ModItems.PAPAYA.get()));
@@ -699,5 +698,32 @@ public class ModBlocks {
     @ExpectPlatform
     public static BlockBehaviour.Properties dropLike(Supplier<Block> blockSupplier){
         throw new AssertionError();
+    }
+
+    private static FlowerPotBlock flowerPot(Block block) {
+        return new FlowerPotBlock(block, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY));
+    }
+
+    private static RotatedPillarBlock log(MapColor topMapColor, MapColor sideMapColor) {
+        return new RotatedPillarBlock(
+            BlockBehaviour.Properties.of()
+                .mapColor(state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? topMapColor : sideMapColor)
+                .instrument(NoteBlockInstrument.BASS)
+                .strength(2.0F)
+                .sound(SoundType.WOOD)
+                .ignitedByLava()
+        );
+    }
+
+    private static ButtonBlock woodenButton(BlockSetType blockSetType) {
+        return new ButtonBlock(blockSetType, 30, BlockBehaviour.Properties.of().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY));
+    }
+
+    private static Boolean never(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, EntityType<?> entityType) {
+        return false;
+    }
+
+    private static Boolean ocelotOrParrot(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, EntityType<?> entityType) {
+        return entityType == EntityType.OCELOT || entityType == EntityType.PARROT;
     }
 }

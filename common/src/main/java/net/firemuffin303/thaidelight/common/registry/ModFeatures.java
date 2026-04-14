@@ -11,7 +11,7 @@ import net.firemuffin303.thaidelight.mixin.accessor.feature.FoliagePlacerTypeAcc
 import net.firemuffin303.thaidelight.mixin.accessor.feature.TrunkPlacerTypeAccessor;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
@@ -116,7 +116,7 @@ public class ModFeatures {
 
 
 
-    public static void bootstrapPlacedFeature(BootstapContext<PlacedFeature> bootstapContext){
+    public static void bootstrapPlacedFeature(BootstrapContext<PlacedFeature> bootstapContext){
         Holder.Reference<ConfiguredFeature<?,?>> config_lime_bush = bootstapContext.lookup(Registries.CONFIGURED_FEATURE).getOrThrow(ModFeatures.FEATURE_PATCH_LIME_BUSH);
         Holder.Reference<ConfiguredFeature<?,?>> config_wild_pepper = bootstapContext.lookup(Registries.CONFIGURED_FEATURE).getOrThrow(ModFeatures.FEATURE_PATCH_WILD_PEPPER);
         Holder.Reference<ConfiguredFeature<?,?>> config_wild_holy_basil = bootstapContext.lookup(Registries.CONFIGURED_FEATURE).getOrThrow(ModFeatures.FEATURE_PATCH_WILD_HOLY_BASIL);

@@ -1,25 +1,45 @@
 plugins {
-    id 'dev.architectury.loom' version '1.13-SNAPSHOT' apply false
-    id 'architectury-plugin' version '3.4-SNAPSHOT'
+    id "architectury-plugin" version "3.4.164"
+    id "dev.architectury.loom" version "1.9.436" apply false
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
 }
 
-allprojects {
-    version = project.mod_version
-    group = project.maven_group
+def minGradleVersion = org.gradle.util.GradleVersion.version("9.0")
+if (org.gradle.util.GradleVersion.current() < minGradleVersion) {
+    throw new GradleException("This project requires Gradle ${minGradleVersion.version}+ (via ./gradlew). Current: ${org.gradle.util.GradleVersion.current().version}")
 }
 
+architectury {
+    minecraft = rootProject.minecraft_version
+}
 
 subprojects {
-    apply plugin: 'dev.architectury.loom'
-    apply plugin: 'architectury-plugin'
-    apply plugin: 'maven-publish'
+    apply plugin: "dev.architectury.loom"
+    loom {
+        silentMojangMappingsLicense()
+    }
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+        mappings loom.officialMojangMappings()
+    }
+}
+
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
 
     base {
-        archivesName = "$rootProject.archives_base_name-$project.name"
+        archivesName = rootProject.archives_base_name
     }
+    version = rootProject.mod_version
+    group = rootProject.maven_group
 
     repositories {
+        maven {
+            name = "NeoForged"
+            url = "https://maven.neoforged.net/releases"
+        }
         maven {
             // location of the maven that hosts JEI files before January 2023
             name = "Progwml6's maven"
@@ -87,78 +107,12 @@ subprojects {
         mavenLocal()
     }
 
-    dependencies {
-        minecraft "com.mojang:minecraft:${project.minecraft_version}"
-        mappings loom.officialMojangMappings()
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+        options.release = 21
     }
 
     java {
         withSourcesJar()
-
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    def targetJavaVersion = 17
-    tasks.withType(JavaCompile).configureEach {
-        it.options.encoding = "UTF-8"
-        if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-            it.options.release.set(targetJavaVersion)
-        }
     }
 }
-
-/*
-jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
-    }
-}
-
-// configure the maven publication
-publishing {
-    publications {
-        create("mavenJava", MavenPublication) {
-            artifactId = project.archives_base_name
-            from components.java
-        }
-    }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-    repositories {
-        // Add repositories to publish to here.
-        // Notice: This block does NOT have the same function as the block in the top level.
-        // The repositories here will be used for publishing your artifact, not for
-        // retrieving dependencies.
-    }
-}
-
- */
-
-/*
-loom{
-    runs {
-        datagen {
-            inherit server
-            name "Fabric Data Generation"
-            vmArg("-Dfabric-api.datagen")
-            vmArg "-Dfabric-api.datagen.output-dir=${file('src/generated/resources')}"
-            vmArg("-Dfabric-api.datagen.modid=muffins_thaidelight")
-            runDir "build/datagen"
-        }
-    }
-
-
-    accessWidenerPath = file("src/main/resources/muffins_thaidelight.accesswidener")
-}
-
-sourceSets {
-    main {
-        resources {
-            srcDirs += "src/generated/resources"
-
-        }
-    }
-}
-
- */

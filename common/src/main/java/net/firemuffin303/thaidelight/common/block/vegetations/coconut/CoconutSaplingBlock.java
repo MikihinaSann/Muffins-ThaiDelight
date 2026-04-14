@@ -11,7 +11,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class CoconutSaplingBlock extends SaplingBlock {
     public CoconutSaplingBlock(Properties properties) {
-        super(new CoconutTreeGrower(), properties);
+        super(CoconutTreeGrower.GROWER, properties);
     }
 
     @Override

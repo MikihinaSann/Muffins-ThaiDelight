@@ -4,6 +4,7 @@ import net.firemuffin303.thaidelight.common.block.blockentity.SackBlockEntity;
 import net.firemuffin303.thaidelight.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
@@ -106,7 +107,7 @@ public class SackBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
                 ItemStack itemStack = new ItemStack(ModItems.SACK.get());
                 blockEntity.saveToItem(itemStack);
                 if (sackBlockEntity.hasCustomName()) {
-                    itemStack.setHoverName(sackBlockEntity.getCustomName());
+                    itemStack.set(DataComponents.CUSTOM_NAME, sackBlockEntity.getCustomName());
                 }
                 ItemEntity itemEntity = new ItemEntity(level, (double)blockPos.getX() + 0.5, (double)blockPos.getY() + 0.5, (double)blockPos.getZ() + 0.5, itemStack);
                 itemEntity.setDefaultPickUpDelay();

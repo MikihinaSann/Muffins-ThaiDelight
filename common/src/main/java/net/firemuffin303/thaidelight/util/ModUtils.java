@@ -18,7 +18,6 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.enchantment.ThornsEnchantment;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -66,9 +65,9 @@ public class ModUtils {
         ItemStack helmet = victim.getItemBySlot(EquipmentSlot.HEAD);
         if(helmet.is(ModItems.DURIAN_HELMET.get()) && EnchantmentHelper.getEnchantmentLevel(Enchantments.THORNS,victim) <= 0){
             RandomSource randomSource = victim.getRandom();
-            if(ThornsEnchantment.shouldHit(1,randomSource)){
+            if(shouldHitThorns(1, randomSource)){
                 if(attacker != null){
-                    attacker.hurt(victim.damageSources().thorns(victim),ThornsEnchantment.getDamage(1,randomSource));
+                    attacker.hurt(victim.damageSources().thorns(victim), getThornsDamage(1, randomSource));
                 }
 
                 if (attacker != null) {
@@ -76,6 +75,14 @@ public class ModUtils {
                 }
             }
         }
+    }
+
+    private static boolean shouldHitThorns(int level, RandomSource randomSource) {
+        return level > 0 && randomSource.nextFloat() < 0.15F * (float)level;
+    }
+
+    private static int getThornsDamage(int level, RandomSource randomSource) {
+        return level > 10 ? level - 10 : 1 + randomSource.nextInt(4);
     }
 
     public static void spawnItemEntity(Level level, ItemStack stack, double x, double y, double z, double xMotion, double yMotion, double zMotion) {

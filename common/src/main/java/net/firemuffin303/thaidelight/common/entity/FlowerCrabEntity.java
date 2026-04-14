@@ -7,6 +7,7 @@ import net.firemuffin303.thaidelight.common.registry.ModItems;
 import net.firemuffin303.thaidelight.common.registry.ModTags;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -201,8 +203,7 @@ public class FlowerCrabEntity extends Animal implements Bucketable {
     @Override
     public void saveToBucketTag(ItemStack arg) {
         Bucketable.saveDefaultDataToBucketTag(this, arg);
-        CompoundTag compoundTag = arg.getOrCreateTag();
-        compoundTag.putInt("Age", this.getAge());
+        CustomData.update(DataComponents.CUSTOM_DATA, arg, compoundTag -> compoundTag.putInt("Age", this.getAge()));
 
 
     }

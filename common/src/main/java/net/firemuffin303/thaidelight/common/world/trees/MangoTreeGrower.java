@@ -1,19 +1,21 @@
 package net.firemuffin303.thaidelight.common.world.trees;
 
 import net.firemuffin303.thaidelight.common.registry.ModFeatures;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.grower.AbstractTreeGrower;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import org.jetbrains.annotations.Nullable;
+import java.util.Optional;
+import net.minecraft.world.level.block.grower.TreeGrower;
 
-public class MangoTreeGrower extends AbstractTreeGrower {
-    @Override
-    protected @Nullable ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource randomSource, boolean bl) {
-        if(randomSource.nextInt(10) == 0){
-            return bl ? ModFeatures.FEATURE_FANCY_MANGO_TREE_BEE : ModFeatures.FEATURE_FANCY_MANGO_TREE;
-        }
+public final class MangoTreeGrower {
+    public static final TreeGrower GROWER = new TreeGrower(
+        "thaidelight_mango",
+        0.1F,
+        Optional.empty(),
+        Optional.empty(),
+        Optional.of(ModFeatures.FEATURE_MANGO_TREE),
+        Optional.of(ModFeatures.FEATURE_FANCY_MANGO_TREE),
+        Optional.of(ModFeatures.FEATURE_MANGO_TREE_BEE),
+        Optional.of(ModFeatures.FEATURE_FANCY_MANGO_TREE_BEE)
+    );
 
-        return bl ? ModFeatures.FEATURE_MANGO_TREE_BEE : ModFeatures.FEATURE_MANGO_TREE;
+    private MangoTreeGrower() {
     }
 }

@@ -24,7 +24,7 @@ import net.minecraft.world.phys.BlockHitResult;
 public class CoconutCauldron extends LayeredCauldronBlock {
 
     public CoconutCauldron(Properties properties) {
-        super(properties, LayeredCauldronBlock.RAIN, ModCauldronInteraction.COCONUT);
+        super(Biome.Precipitation.RAIN, ModCauldronInteraction.COCONUT, properties);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CoconutCauldron extends LayeredCauldronBlock {
 
     @Override
     public void handlePrecipitation(BlockState blockState, Level level, BlockPos blockPos, Biome.Precipitation precipitation) {
-        if(shouldHandlePrecipitation(level, precipitation) && isFull(blockState) && ((LayeredCauldronAccessor)this).getFillPredicate().test(precipitation) ){
+        if(shouldHandlePrecipitation(level, precipitation) && isFull(blockState) && ((LayeredCauldronAccessor)this).getPrecipitationType() == precipitation){
             BlockState coconutMilkState = ModBlocks.COCONUT_MILK_CAULDRON.get().defaultBlockState().setValue(LEVEL,3);
             level.setBlockAndUpdate(blockPos,coconutMilkState);
             level.gameEvent(GameEvent.BLOCK_CHANGE,blockPos,GameEvent.Context.of(coconutMilkState));

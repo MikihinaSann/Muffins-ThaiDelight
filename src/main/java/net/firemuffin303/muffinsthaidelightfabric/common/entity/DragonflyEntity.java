@@ -162,11 +162,6 @@ public class DragonflyEntity extends Animal implements VariantHolder<DragonflyEn
     }
 
     @Override
-    public MobType getMobType() {
-        return MobType.ARTHROPOD;
-    }
-
-    @Override
     protected void pushEntities() {
     }
 

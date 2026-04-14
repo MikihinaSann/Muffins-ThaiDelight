@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.firemuffin303.thaidelight.common.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -33,14 +34,13 @@ public class BuffaloEntity extends AbstractHorse implements ContainerListener, H
 
     public BuffaloEntity(EntityType<? extends AbstractHorse> entityType, Level level) {
         super(entityType, level);
-        this.setMaxUpStep(1.0f);
         state = BuffaloRideState.GROUND;
 
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
     }
 
     protected void registerGoals() {
@@ -55,7 +55,10 @@ public class BuffaloEntity extends AbstractHorse implements ContainerListener, H
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 15.0).add(Attributes.MOVEMENT_SPEED, 0.20000000298023224);
+        return Mob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 15.0)
+                .add(Attributes.MOVEMENT_SPEED, 0.20000000298023224)
+                .add(Attributes.STEP_HEIGHT, 1.0);
     }
 
     //Interaction Logic
@@ -101,7 +104,7 @@ public class BuffaloEntity extends AbstractHorse implements ContainerListener, H
     public void addAdditionalSaveData(CompoundTag compoundTag) {
         super.addAdditionalSaveData(compoundTag);
         if(!this.inventory.getItem(0).isEmpty()){
-            compoundTag.put("SaddleItem",this.inventory.getItem(0).save(new CompoundTag()));
+            compoundTag.put("SaddleItem", this.inventory.getItem(0).save(this.registryAccess(), new CompoundTag()));
         }
     }
 

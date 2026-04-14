@@ -3,7 +3,7 @@ package net.firemuffin303.thaidelight.mixin.dispenser;
 import net.firemuffin303.thaidelight.common.registry.ModBlocks;
 import net.firemuffin303.thaidelight.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +22,7 @@ public abstract class DispenseItemBehaviorMixin extends OptionalDispenseItemBeha
 
     @Shadow protected abstract ItemStack takeLiquid(BlockSource par1, ItemStack par2, ItemStack par3);
 
-    @Inject(method = "execute",at = @At(value = "INVOKE", target = "Lnet/minecraft/core/dispenser/OptionalDispenseItemBehavior;execute(Lnet/minecraft/core/BlockSource;Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/item/ItemStack;"), cancellable = true)
+    @Inject(method = "execute",at = @At(value = "INVOKE", target = "Lnet/minecraft/core/dispenser/OptionalDispenseItemBehavior;execute(Lnet/minecraft/core/dispenser/BlockSource;Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/item/ItemStack;"), cancellable = true)
     public void muffins$takeCoconutMilk(BlockSource blockSource, ItemStack itemStack, CallbackInfoReturnable<ItemStack> cir){
         ServerLevel serverLevel = blockSource.getLevel();
         BlockPos blockPos = blockSource.getPos().relative(blockSource.getBlockState().getValue(DispenserBlock.FACING));

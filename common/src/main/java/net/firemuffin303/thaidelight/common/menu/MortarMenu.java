@@ -23,7 +23,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.Optional;
 
-public class MortarMenu extends RecipeBookMenu<Container> {
+public class MortarMenu extends RecipeBookMenu<Container, MortarRecipe> {
     private final ResultContainer resultContainer = new ResultContainer();
     private final Container craftSlots;
     private final Player player;

@@ -44,7 +44,7 @@ public class PapayaLogBlock extends RotatedPillarBlock implements DirectionalBon
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState,Direction clickedFace, boolean isClient) {
+    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState, Direction clickedFace) {
         BlockPos blockPos2 = blockPos.offset(clickedFace.getStepX(), 0, clickedFace.getStepZ());
         return levelReader.getBlockState(blockPos2).isAir();
     }

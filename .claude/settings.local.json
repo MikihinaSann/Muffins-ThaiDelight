@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs grep:*)",
+      "Read(//mnt/c/Users/nonza/Documents/GitHub/**)",
+      "Bash(./gradlew :neoforge:compileJava)",
+      "Bash(where java:*)",
+      "Bash(java -version)",
+      "Read(//c/Program Files/Eclipse Adoptium/**)",
+      "Read(//c/Program Files/Java/**)",
+      "Read(//c/Program Files/**)",
+      "Bash(JAVA_HOME=\"C:/Program Files/Eclipse Adoptium/jdk-21\" cd \"C:/Users/nonza/Documents/GitHub/Muffins-ThaiDelight\")",
+      "Bash(export JAVA_HOME=\"/c/Program Files/Java/jdk-21\")",
+      "Bash(export PATH=\"$JAVA_HOME/bin:$PATH\")",
+      "mcp__plugin_ecc_github__get_file_contents",
+      "Bash(curl -s \"https://api.github.com/repos/FireMuffin303/Muffins-ThaiDelight/git/trees/1.21?recursive=1\")",
+      "Bash(cat)",
+      "Bash(chmod +x /tmp/fetch_files.sh)",
+      "Bash(/tmp/fetch_files.sh)",
+      "Bash(curl:*)",
+      "WebSearch",
+      "mcp__plugin_ecc_github__search_code",
+      "WebFetch(domain:docs.architectury.dev)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:deepwiki.com)"
+    ]
+  }
+}

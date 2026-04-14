@@ -3,11 +3,13 @@ package net.firemuffin303.thaidelight.common.item;
 import net.firemuffin303.thaidelight.common.entity.DragonflyEntity;
 import net.firemuffin303.thaidelight.common.registry.ModEntityTypes;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +23,7 @@ public class DragonflyBottleItem extends MobBottleItem<DragonflyEntity> {
     @Override
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag) {
         super.appendHoverText(itemStack, level, list, tooltipFlag);
-        CompoundTag compoundTag = itemStack.getTag();
+        CompoundTag compoundTag = itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
         if(compoundTag != null && compoundTag.contains("Variant")){
             int varaint = compoundTag.getInt("Variant");
             ChatFormatting[] chatFormattings = new ChatFormatting[]{ChatFormatting.ITALIC,ChatFormatting.GRAY};
@@ -31,10 +33,10 @@ public class DragonflyBottleItem extends MobBottleItem<DragonflyEntity> {
     }
 
     public static void setVariant(ItemStack itemStack, DragonflyEntity.DragonflyVariant variant){
-        itemStack.getOrCreateTag().putInt("Variant",variant.getId());
+        CustomData.update(DataComponents.CUSTOM_DATA, itemStack, compoundTag -> compoundTag.putInt("Variant", variant.getId()));
     }
 
     public static int getVariant(ItemStack itemStack){
-        return itemStack.getOrCreateTag().getInt("Variant");
+        return itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getInt("Variant");
     }
 }
