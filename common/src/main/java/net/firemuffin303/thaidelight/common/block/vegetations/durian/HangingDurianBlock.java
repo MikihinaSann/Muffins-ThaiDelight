@@ -1,5 +1,6 @@
 package net.firemuffin303.thaidelight.common.block.vegetations.durian;
 
+import com.mojang.serialization.MapCodec;
 import net.firemuffin303.thaidelight.common.registry.ModBlocks;
 import net.firemuffin303.thaidelight.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
@@ -10,7 +11,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
@@ -37,6 +37,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class HangingDurianBlock extends FallingBlock implements SimpleWaterloggedBlock, BonemealableBlock {
+    public static final MapCodec<HangingDurianBlock> CODEC = simpleCodec(HangingDurianBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final IntegerProperty AGE = BlockStateProperties.AGE_1;
 
@@ -50,6 +51,11 @@ public class HangingDurianBlock extends FallingBlock implements SimpleWaterlogge
                 .setValue(WATERLOGGED,false)
                 .setValue(AGE,0)
         );
+    }
+
+    @Override
+    protected MapCodec<? extends FallingBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -75,7 +81,7 @@ public class HangingDurianBlock extends FallingBlock implements SimpleWaterlogge
     }
 
     @Override
-    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+    protected InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult) {
         if(!level.isClientSide){
             if(blockState.getValue(AGE) >= 1 && level.getBlockState(blockPos.below()).isAir() && level.getBlockState(blockPos.above()).is(ModBlocks.DURIAN_LEAVES.get())){
                 level.playSound(null,blockPos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS);
@@ -84,7 +90,7 @@ public class HangingDurianBlock extends FallingBlock implements SimpleWaterlogge
             }
         }
 
-        return super.use(blockState, level, blockPos, player, interactionHand, blockHitResult);
+        return super.useWithoutItem(blockState, level, blockPos, player, blockHitResult);
     }
 
     @Override
@@ -148,7 +154,7 @@ public class HangingDurianBlock extends FallingBlock implements SimpleWaterlogge
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState, boolean bl) {
+    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState) {
         return blockState.getValue(AGE) < 1;
     }
 

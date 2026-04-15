@@ -1,0 +1,19 @@
+Compiled from "FoliagePlacerType.java"
+public class net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType<P extends net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer> {
+  public static final net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType<net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer> BLOB_FOLIAGE_PLACER;
+  public static final net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType<net.minecraft.world.level.levelgen.feature.foliageplacers.SpruceFoliagePlacer> SPRUCE_FOLIAGE_PLACER;
+  public static final net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType<net.minecraft.world.level.levelgen.feature.foliageplacers.PineFoliagePlacer> PINE_FOLIAGE_PLACER;
+  public static final net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType<net.minecraft.world.level.levelgen.feature.foliageplacers.AcaciaFoliagePlacer> ACACIA_FOLIAGE_PLACER;
+  public static final net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType<net.minecraft.world.level.levelgen.feature.foliageplacers.BushFoliagePlacer> BUSH_FOLIAGE_PLACER;
+  public static final net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType<net.minecraft.world.level.levelgen.feature.foliageplacers.FancyFoliagePlacer> FANCY_FOLIAGE_PLACER;
+  public static final net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType<net.minecraft.world.level.levelgen.feature.foliageplacers.MegaJungleFoliagePlacer> MEGA_JUNGLE_FOLIAGE_PLACER;
+  public static final net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType<net.minecraft.world.level.levelgen.feature.foliageplacers.MegaPineFoliagePlacer> MEGA_PINE_FOLIAGE_PLACER;
+  public static final net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType<net.minecraft.world.level.levelgen.feature.foliageplacers.DarkOakFoliagePlacer> DARK_OAK_FOLIAGE_PLACER;
+  public static final net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType<net.minecraft.world.level.levelgen.feature.foliageplacers.RandomSpreadFoliagePlacer> RANDOM_SPREAD_FOLIAGE_PLACER;
+  public static final net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType<net.minecraft.world.level.levelgen.feature.foliageplacers.CherryFoliagePlacer> CHERRY_FOLIAGE_PLACER;
+  private final com.mojang.serialization.MapCodec<P> codec;
+  private static <P extends net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer> net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType<P> register(java.lang.String, com.mojang.serialization.MapCodec<P>);
+  public net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType(com.mojang.serialization.MapCodec<P>);
+  public com.mojang.serialization.MapCodec<P> codec();
+  static {};
+}

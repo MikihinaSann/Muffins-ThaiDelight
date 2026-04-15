@@ -5,6 +5,7 @@ import net.firemuffin303.thaidelight.common.registry.ModMobEffects;
 import net.firemuffin303.thaidelight.util.ModUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemInHandRenderer;
+import net.minecraft.core.registries.BuiltInRegistries;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,9 +16,9 @@ public abstract class ItemInHandRendererMixin {
 
     @Shadow @Final private Minecraft minecraft;
 
-    @ModifyExpressionValue(method = "applyEatTransform",at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getUseDuration()I"))
+    @ModifyExpressionValue(method = "applyEatTransform",at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;getUseDuration(Lnet/minecraft/world/entity/LivingEntity;)I"))
     public int muffins$hasStinkyEffect(int original){
-        if(this.minecraft.player.hasEffect(ModMobEffects.APPETITE_LOSS.get())){
+        if(this.minecraft.player.hasEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModMobEffects.APPETITE_LOSS.get()))){
             return ModUtils.calculateEatingWithAnorexiaEffect(this.minecraft.player,original);
         }
 

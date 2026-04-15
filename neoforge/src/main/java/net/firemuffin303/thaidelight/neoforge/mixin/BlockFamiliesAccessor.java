@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(BlockFamilies.class)
 public interface BlockFamiliesAccessor {
 
-    @Invoker("familyBuilder")
+    @Invoker(value = "familyBuilder", remap = false)
     static BlockFamily.Builder familyBuilder(Block block) {
         throw new AssertionError();
     }

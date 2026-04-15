@@ -79,6 +79,6 @@ public class ModItemsImpl {
     }
 
     public static <T extends Mob> Supplier<Item> createMobBucket(Supplier<EntityType<T>> entitySupplier, Supplier<? extends Fluid> fluidSupplier, Supplier<? extends SoundEvent> soundSupplier, Item.Properties properties) {
-        return () -> new MobBucketItem(entitySupplier, fluidSupplier, soundSupplier, properties);
+        return () -> new MobBucketItem(entitySupplier.get(), fluidSupplier.get(), soundSupplier.get(), properties);
     }
 }

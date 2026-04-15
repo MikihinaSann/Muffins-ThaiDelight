@@ -28,7 +28,6 @@ public class NeoForgeBuddingPepperBlock extends BuddingBushBlock implements Bone
         this.registerDefaultState(this.stateDefinition.any().setValue(PEPPER_AGE, 0));
     }
 
-    @Override
     public BlockState getPlant(BlockGetter world, BlockPos pos) {
         return ModBlocks.BUDDING_PEPPER_CROP.get().defaultBlockState();
     }

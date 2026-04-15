@@ -2,6 +2,7 @@ package net.firemuffin303.thaidelight.common.menu;
 
 
 import net.firemuffin303.thaidelight.common.recipe.mortar.MortarRecipe;
+import net.firemuffin303.thaidelight.common.recipe.mortar.MortarRecipeInput;
 import net.firemuffin303.thaidelight.common.registry.ModBlocks;
 import net.firemuffin303.thaidelight.common.registry.ModMenuType;
 import net.firemuffin303.thaidelight.common.registry.ModRecipes;
@@ -18,12 +19,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 
 import java.util.Optional;
 
-public class MortarMenu extends RecipeBookMenu<Container, MortarRecipe> {
+public class MortarMenu extends RecipeBookMenu<MortarRecipeInput, MortarRecipe> {
     private final ResultContainer resultContainer = new ResultContainer();
     private final Container craftSlots;
     private final Player player;
@@ -84,11 +85,13 @@ public class MortarMenu extends RecipeBookMenu<Container, MortarRecipe> {
         if (!arg2.isClientSide) {
             ServerPlayer serverPlayer = (ServerPlayer)arg3;
             ItemStack itemStack = ItemStack.EMPTY;
-            Optional<MortarRecipe> optional = arg2.getServer().getRecipeManager().getRecipeFor(ModRecipes.MORTAR.get(), arg4, arg2);
+            MortarRecipeInput recipeInput = new MortarRecipeInput(arg4);
+            Optional<RecipeHolder<MortarRecipe>> optional = arg2.getServer().getRecipeManager().getRecipeFor(ModRecipes.MORTAR.get(), recipeInput, arg2);
             if (optional.isPresent()) {
-                MortarRecipe mortarRecipe = optional.get();
-                if (arg5.setRecipeUsed(arg2, serverPlayer, mortarRecipe)) {
-                    ItemStack itemStack2 = mortarRecipe.assemble(arg4, arg2.registryAccess());
+                RecipeHolder<MortarRecipe> recipeHolder = optional.get();
+                MortarRecipe mortarRecipe = recipeHolder.value();
+                if (arg5.setRecipeUsed(arg2, serverPlayer, recipeHolder)) {
+                    ItemStack itemStack2 = mortarRecipe.assemble(recipeInput, arg2.registryAccess());
                     if (itemStack2.isItemEnabled(arg2.enabledFeatures())) {
                         itemStack = itemStack2;
                     }
@@ -115,8 +118,8 @@ public class MortarMenu extends RecipeBookMenu<Container, MortarRecipe> {
     }
 
     @Override
-    public boolean recipeMatches(Recipe<? super Container> recipe) {
-        return recipe.matches(this.craftSlots,this.player.level());
+    public boolean recipeMatches(RecipeHolder<MortarRecipe> recipe) {
+        return recipe.value().matches(new MortarRecipeInput(this.craftSlots), this.player.level());
     }
 
     @Override
@@ -221,7 +224,7 @@ public class MortarMenu extends RecipeBookMenu<Container, MortarRecipe> {
         public void onTake(Player player, ItemStack itemStack) {
 
             this.checkTakeAchievements(itemStack);
-            NonNullList<ItemStack> nonNullList = player.level().getRecipeManager().getRemainingItemsFor(ModRecipes.MORTAR.get(), this.craftSlots, player.level());
+            NonNullList<ItemStack> nonNullList = player.level().getRecipeManager().getRemainingItemsFor(ModRecipes.MORTAR.get(), new MortarRecipeInput(this.craftSlots), player.level());
 
             for(int i = 0; i < nonNullList.size(); ++i) {
                 ItemStack itemStack2 = this.craftSlots.getItem(i);
@@ -234,7 +237,7 @@ public class MortarMenu extends RecipeBookMenu<Container, MortarRecipe> {
                 if (!itemStack3.isEmpty()) {
                     if (itemStack2.isEmpty()) {
                         this.craftSlots.setItem(i, itemStack3);
-                    } else if (ItemStack.isSameItemSameTags(itemStack2, itemStack3)) {
+                    } else if (ItemStack.isSameItemSameComponents(itemStack2, itemStack3)) {
                         itemStack3.grow(itemStack2.getCount());
                         this.craftSlots.setItem(i, itemStack3);
                     } else if (!this.player.getInventory().add(itemStack3)) {

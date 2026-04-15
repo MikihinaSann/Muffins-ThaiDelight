@@ -4,10 +4,11 @@ import net.firemuffin303.thaidelight.common.registry.ModBlocks;
 import net.firemuffin303.thaidelight.common.registry.ModMobEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.component.SuspiciousStewEffects;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -104,7 +105,7 @@ public class DurianFlowerBlock extends Block implements SimpleWaterloggedBlock, 
 
     // ------------- Bone meal -----------
     @Override
-    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState, boolean bl) {
+    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState) {
         return isHanging(blockState) && levelReader.getBlockState(blockPos.above()).is(ModBlocks.DURIAN_LEAVES.get());
     }
 
@@ -119,12 +120,9 @@ public class DurianFlowerBlock extends Block implements SimpleWaterloggedBlock, 
     }
 
     @Override
-    public MobEffect getSuspiciousEffect() {
-        return ModMobEffects.STINKY.get();
-    }
-
-    @Override
-    public int getEffectDuration() {
-        return 11*20;
+    public SuspiciousStewEffects getSuspiciousEffects() {
+        return new SuspiciousStewEffects(java.util.List.of(
+                new SuspiciousStewEffects.Entry(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModMobEffects.STINKY.get()), 11 * 20)
+        ));
     }
 }

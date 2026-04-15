@@ -85,11 +85,11 @@ public class FlowerCrabEntity extends Animal implements Bucketable {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(HAS_EGG, false);
-        this.entityData.define(LAYING_EGG, false);
-        this.entityData.define(FROM_BUCKET, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(HAS_EGG, false);
+        builder.define(LAYING_EGG, false);
+        builder.define(FROM_BUCKET, false);
 
     }
 
@@ -151,10 +151,6 @@ public class FlowerCrabEntity extends Animal implements Bucketable {
             this.danceAnimationState.stop();
         }
 
-    }
-
-    public boolean canBreatheUnderwater() {
-        return true;
     }
 
     public boolean hasEgg() {

@@ -1,10 +1,9 @@
 package net.firemuffin303.thaidelight.common.recipe.mortar;
 
 import net.firemuffin303.thaidelight.common.registry.ModRecipes;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -29,17 +28,12 @@ public class RegularMortarRecipe implements MortarRecipe{
     }
 
     @Override
-    public ResourceLocation getId() {
-        return this.id;
-    }
-
-    @Override
     public String getGroup() {
         return this.group;
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
+    public ItemStack getResultItem(HolderLookup.Provider registries) {
         return this.result;
     }
 
@@ -57,23 +51,23 @@ public class RegularMortarRecipe implements MortarRecipe{
     }
 
     @Override
-    public boolean matches(Container container, Level level) {
+    public boolean matches(MortarRecipeInput input, Level level) {
         StackedContents stackedContents = new StackedContents();
-        int i =0;
+        int i = 0;
         for(int j = 1; j < 5; j++){
-            ItemStack itemStack = container.getItem(j);
+            ItemStack itemStack = input.getItem(j);
             if(!itemStack.isEmpty()){
-                stackedContents.accountStack(itemStack,1);
+                stackedContents.accountStack(itemStack, 1);
                 ++i;
             }
         }
 
-        return i == this.ingredients.size() && stackedContents.canCraft(this,null) && this.container.is(container.getItem(5).getItem());
+        return i == this.ingredients.size() && stackedContents.canCraft(this, null) && this.container.is(input.getItem(5).getItem());
     }
 
     @Override
-    public ItemStack assemble(Container container, RegistryAccess registryAccess) {
-        return this.getResultItem(registryAccess).copy();
+    public ItemStack assemble(MortarRecipeInput input, HolderLookup.Provider registries) {
+        return this.getResultItem(registries).copy();
     }
 
     @Override

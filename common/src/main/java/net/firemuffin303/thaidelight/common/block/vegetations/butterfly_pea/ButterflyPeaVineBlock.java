@@ -10,12 +10,15 @@ import net.firemuffin303.thaidelight.util.PlatformUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -50,13 +53,12 @@ public class ButterflyPeaVineBlock extends CropBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public ItemInteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         int age = state.getValue(getAgeProperty());
         boolean isMature = age == getMaxAge();
-        if (!isMature && player.getItemInHand(hand).is(Items.BONE_MEAL)) {
-            return InteractionResult.PASS;
+        if (!isMature && itemStack.is(Items.BONE_MEAL)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         } else if (isMature) {
-            ItemStack itemStack = player.getItemInHand(hand);
             if(!level.isClientSide){
                 if(itemStack.is(PlatformUtil.shearTag())) {
                     this.drop(ModLootTables.BUTTERFLY_PEA_SHEARS, (ServerLevel) level,itemStack,state,pos);
@@ -69,14 +71,14 @@ public class ButterflyPeaVineBlock extends CropBlock {
 
             level.playSound(null, pos, PlatformUtil.tomatoPickSound(), SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
             level.setBlock(pos, state.setValue(getAgeProperty(), 0), 2);
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         } else {
-            return super.use(state, level, pos, player, hand, hit);
+            return super.useItemOn(itemStack, state, level, pos, player, hand, hit);
         }
     }
 
     private void drop(ResourceLocation resourceLocation, ServerLevel serverLevel, ItemStack itemStack, BlockState blockState, BlockPos blockPos){
-        LootTable lootTable = serverLevel.getServer().getLootData().getLootTable(resourceLocation);
+        LootTable lootTable = serverLevel.getServer().reloadableRegistries().getLootTable(ResourceKey.create(Registries.LOOT_TABLE, resourceLocation));
         LootParams params = new LootParams.Builder(serverLevel)
                 .withParameter(LootContextParams.BLOCK_STATE,blockState)
                 .withParameter(LootContextParams.ORIGIN,blockPos.getCenter())
@@ -212,7 +214,7 @@ public class ButterflyPeaVineBlock extends CropBlock {
     }
 
     public static void destroyAndPlaceRope(Level level, BlockPos pos) {
-        var configuredRopeBlock = BuiltInRegistries.BLOCK.getOptional(new ResourceLocation(PlatformUtil.defaultTomatoVineConfig()));
+        var configuredRopeBlock = BuiltInRegistries.BLOCK.getOptional(ResourceLocation.parse(PlatformUtil.defaultTomatoVineConfig()));
         Block finalRopeBlock = configuredRopeBlock.orElseGet(PlatformUtil::farmerDelightRope);
 
         level.setBlockAndUpdate(pos, finalRopeBlock.defaultBlockState());

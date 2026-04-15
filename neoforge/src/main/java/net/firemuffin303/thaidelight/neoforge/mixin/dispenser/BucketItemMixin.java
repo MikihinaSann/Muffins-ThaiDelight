@@ -23,15 +23,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(BucketItem.class)
 public abstract class BucketItemMixin {
 
-    @Shadow @Final private Fluid content;
+    @Shadow(remap = false) @Final private Fluid content;
 
-    @ModifyExpressionValue(method = "emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isAir()Z"))
+    @ModifyExpressionValue(method = "emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isAir()Z"), remap = false)
     public boolean muffins$AddCoconutCauldron(boolean original, @Local BlockState blockState) {
         return original || (blockState.is(ModBlocks.COCONUT_CAULDRON.get()) && blockState.getValue(CoconutCauldron.LEVEL) == 3);
     }
 
-    @Inject(method = "emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z"), cancellable = true)
-    public void muffins$fillCoconutCauldron(Player player, Level level, BlockPos blockPos, BlockHitResult arg4, ItemStack container, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "emptyContents(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/BlockHitResult;Lnet/minecraft/world/item/ItemStack;)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z"), cancellable = true, remap = false)
+    public void muffins$fillCoconutCauldron(Player player, Level level, BlockPos blockPos, BlockHitResult arg4, ItemStack itemStack, CallbackInfoReturnable<Boolean> cir) {
         BlockState blockState = level.getBlockState(blockPos);
         if (this.content == Fluids.WATER && blockState.is(ModBlocks.COCONUT_CAULDRON.get()) && blockState.getValue(CoconutCauldron.LEVEL) == 3) {
             level.setBlock(blockPos, ModBlocks.COCONUT_MILK_CAULDRON.get().defaultBlockState().setValue(CoconutCauldron.LEVEL, 3), 3);

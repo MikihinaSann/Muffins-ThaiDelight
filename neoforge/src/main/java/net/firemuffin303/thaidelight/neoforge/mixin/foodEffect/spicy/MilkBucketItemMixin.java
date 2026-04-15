@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MilkBucketItem.class)
 public abstract class MilkBucketItemMixin {
 
-    @Inject(method = "finishUsingItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;curePotionEffects(Lnet/minecraft/world/item/ItemStack;)Z"))
+    @Inject(method = "finishUsingItem", at = @At("RETURN"), remap = false)
     public void muffins$removeSpicy(ItemStack itemStack, Level level, LivingEntity livingEntity, CallbackInfoReturnable<ItemStack> cir) {
         if (livingEntity instanceof Player player) {
             PlatformUtil.setSpicyTime(0, player);

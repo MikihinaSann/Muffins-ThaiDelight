@@ -6,6 +6,7 @@ import net.firemuffin303.thaidelight.common.registry.ModBlocks;
 import net.firemuffin303.thaidelight.util.PlatformUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -23,12 +24,10 @@ import java.util.Optional;
 @Mixin(AxeItem.class)
 public abstract class AxeItemMixin {
 
-    @Inject(method = "useOn",at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/core/BlockPos;Lnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V",ordinal = 0))
-    public void muffins$useOn(UseOnContext useOnContext, CallbackInfoReturnable<InteractionResult> cir,
-                              @Local(ordinal = 0) Optional<BlockState> blockState,
-                              @Local Level level,
-                              @Local BlockPos blockPos){
-        if(blockState.get().is(ModBlocks.STRIPPED_COCONUT.get())){
+    @Inject(method = "evaluateNewBlockState", at = @At("RETURN"))
+    public void muffins$useOn(Level level, BlockPos blockPos, Player player, BlockState blockState, UseOnContext useOnContext, CallbackInfoReturnable<Optional<BlockState>> cir){
+        Optional<BlockState> nextState = cir.getReturnValue();
+        if(!level.isClientSide && blockState.is(ModBlocks.COCONUT.get()) && nextState.isPresent() && nextState.get().is(ModBlocks.STRIPPED_COCONUT.get())){
             Block.popResource(level,blockPos,new ItemStack(PlatformUtil.getTreeBarkItem().get()));
         }
     }

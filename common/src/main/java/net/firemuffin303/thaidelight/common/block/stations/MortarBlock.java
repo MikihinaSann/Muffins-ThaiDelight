@@ -1,5 +1,6 @@
 package net.firemuffin303.thaidelight.common.block.stations;
 
+import com.mojang.serialization.MapCodec;
 import net.firemuffin303.thaidelight.common.menu.MortarMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,13 +28,14 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class MortarBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
+    public static final MapCodec<MortarBlock> CODEC = simpleCodec(MortarBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final VoxelShape SHAPE;
     private static final Component CONTAINER_TITLE = Component.translatable("container.muffins_thaidelight.mortar");
 
     public MortarBlock(Properties properties) {
         super(properties);
-        this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED,false);
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
     }
 
     @Override
@@ -41,7 +43,13 @@ public class MortarBlock extends HorizontalDirectionalBlock implements SimpleWat
         builder.add(FACING,WATERLOGGED);
     }
 
-    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return CODEC;
+    }
+
+    @Override
+    public InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult) {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {

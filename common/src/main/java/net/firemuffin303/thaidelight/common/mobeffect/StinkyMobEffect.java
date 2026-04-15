@@ -1,6 +1,7 @@
 package net.firemuffin303.thaidelight.common.mobeffect;
 
 import net.firemuffin303.thaidelight.common.registry.ModMobEffects;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
@@ -18,7 +19,7 @@ public class StinkyMobEffect extends MobEffect {
     }
 
     @Override
-    public void applyEffectTick(LivingEntity livingEntity, int i) {
+    public boolean applyEffectTick(LivingEntity livingEntity, int i) {
         if(livingEntity.level() instanceof ServerLevel serverLevel){
             Vec3 vec3 = livingEntity.position();
             AABB aabb = new AABB(vec3,vec3.add(0.0,1.0,0.0));
@@ -27,16 +28,15 @@ public class StinkyMobEffect extends MobEffect {
             List<ServerPlayer> playerList = serverLevel.getEntitiesOfClass(ServerPlayer.class,aabb);
             for (ServerPlayer serverPlayer : playerList){
                 if(!livingEntity.is(serverPlayer)){
-                    serverPlayer.addEffect(new MobEffectInstance(ModMobEffects.APPETITE_LOSS.get(),5*20,i));
+                    serverPlayer.addEffect(new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModMobEffects.APPETITE_LOSS.get()),5*20,i));
                 }
 
             }
         }
 
-        super.applyEffectTick(livingEntity, i);
+        return true;
     }
 
-    @Override
     public boolean isDurationEffectTick(int i, int j) {
         return i % 20 == 0;
     }

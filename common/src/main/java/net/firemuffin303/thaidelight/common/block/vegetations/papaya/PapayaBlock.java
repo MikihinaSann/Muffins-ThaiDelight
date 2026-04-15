@@ -1,5 +1,6 @@
 package net.firemuffin303.thaidelight.common.block.vegetations.papaya;
 
+import com.mojang.serialization.MapCodec;
 import net.firemuffin303.muffinsmcapi.api.CommonEvents;
 import net.firemuffin303.thaidelight.common.registry.ModBlocks;
 import net.firemuffin303.thaidelight.common.registry.ModItems;
@@ -11,6 +12,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -34,6 +36,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class PapayaBlock extends HorizontalDirectionalBlock implements BonemealableBlock {
+    public static final MapCodec<PapayaBlock> CODEC = simpleCodec(PapayaBlock::new);
     public static final IntegerProperty AGE = IntegerProperty.create("age",1,2);
     protected static final VoxelShape[] EAST_AABB;
     protected static final VoxelShape[] WEST_AABB;
@@ -43,6 +46,11 @@ public class PapayaBlock extends HorizontalDirectionalBlock implements Bonemeala
     public PapayaBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(AGE, 1));
+    }
+
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return CODEC;
     }
 
     public boolean isRandomlyTicking(BlockState blockState) {
@@ -63,11 +71,11 @@ public class PapayaBlock extends HorizontalDirectionalBlock implements Bonemeala
     }
 
     @Override
-    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         int i = (Integer)blockState.getValue(AGE);
         boolean flag = i == 2;
-        if (!flag && player.getItemInHand(interactionHand).is(Items.BONE_MEAL)) {
-            return InteractionResult.PASS;
+        if (!flag && itemStack.is(Items.BONE_MEAL)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         } else {
             popResource(level, blockPos, new ItemStack(flag ? ModItems.PAPAYA.get() : ModItems.RAW_PAPAYA.get(), 1));
             level.playSound(null, blockPos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
@@ -75,8 +83,21 @@ public class PapayaBlock extends HorizontalDirectionalBlock implements Bonemeala
             BlockState afterHarvestState = ModBlocks.BUDDING_PAPAYA_FLOWER.get().defaultBlockState().setValue(FACING,blockState.getValue(FACING));
             level.setBlock(blockPos, afterHarvestState, 2);
             level.gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(player, afterHarvestState));
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult) {
+        int i = (Integer)blockState.getValue(AGE);
+        boolean flag = i == 2;
+        popResource(level, blockPos, new ItemStack(flag ? ModItems.PAPAYA.get() : ModItems.RAW_PAPAYA.get(), 1));
+        level.playSound(null, blockPos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
+
+        BlockState afterHarvestState = ModBlocks.BUDDING_PAPAYA_FLOWER.get().defaultBlockState().setValue(FACING,blockState.getValue(FACING));
+        level.setBlock(blockPos, afterHarvestState, 2);
+        level.gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(player, afterHarvestState));
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     public boolean canSurvive(BlockState blockState, LevelReader levelReader, BlockPos blockPos) {
@@ -124,7 +145,7 @@ public class PapayaBlock extends HorizontalDirectionalBlock implements Bonemeala
         return direction == blockState.getValue(FACING) && !blockState.canSurvive(levelAccessor, blockPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(blockState, direction, blockState2, levelAccessor, blockPos, blockPos2);
     }
 
-    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState, boolean bl) {
+    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState) {
         return (Integer)blockState.getValue(AGE) < 2;
     }
 
@@ -145,7 +166,7 @@ public class PapayaBlock extends HorizontalDirectionalBlock implements Bonemeala
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockGetter blockGetter, BlockPos blockPos, BlockState blockState) {
+    public ItemStack getCloneItemStack(LevelReader blockGetter, BlockPos blockPos, BlockState blockState) {
         return switch (blockState.getValue(AGE)){
             case 2 -> new ItemStack(ModItems.PAPAYA.get());
             default -> new ItemStack(ModItems.RAW_PAPAYA.get());

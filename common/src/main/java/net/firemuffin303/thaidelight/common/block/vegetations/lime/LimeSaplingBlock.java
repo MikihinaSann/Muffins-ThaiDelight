@@ -1,5 +1,6 @@
 package net.firemuffin303.thaidelight.common.block.vegetations.lime;
 
+import com.mojang.serialization.MapCodec;
 import net.firemuffin303.thaidelight.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -18,11 +19,17 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import static net.minecraft.world.level.block.DoublePlantBlock.copyWaterloggedFrom;
 
 public class LimeSaplingBlock extends BushBlock implements BonemealableBlock {
+    public static final MapCodec<LimeSaplingBlock> CODEC = simpleCodec(LimeSaplingBlock::new);
     private static final VoxelShape SAPLING_SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 8.0D, 13.0D);
 
 
     public LimeSaplingBlock(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    protected MapCodec<? extends BushBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -55,7 +62,7 @@ public class LimeSaplingBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState, boolean bl) {
+    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState) {
         return this.canGrow(levelReader, blockPos);
     }
 

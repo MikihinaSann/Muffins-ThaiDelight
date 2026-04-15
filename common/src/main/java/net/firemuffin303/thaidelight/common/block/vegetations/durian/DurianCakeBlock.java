@@ -11,6 +11,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -46,9 +47,8 @@ public class DurianCakeBlock extends Block {
     }
 
     @Override
-    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         Block block;
-        ItemStack itemStack = player.getItemInHand(interactionHand);
         Item item = itemStack.getItem();
         if (itemStack.is(ItemTags.CANDLES) && blockState.getValue(BITES) == 0 && (block = Block.byItem(item)) instanceof CandleBlock) {
             if (!player.isCreative()) {
@@ -58,27 +58,21 @@ public class DurianCakeBlock extends Block {
             level.setBlockAndUpdate(blockPos, CandleDurianCakeBlock.byCandle(block));
             level.gameEvent((Entity)player, GameEvent.BLOCK_CHANGE, blockPos);
             player.awardStat(Stats.ITEM_USED.get(item));
-            return InteractionResult.SUCCESS;
-        }
-
-        if (level.isClientSide) {
-            if(itemStack.is(ModTags.KNIVES)){
-                return cutSlice(level,blockPos,blockState,player);
-            }
-
-            if (eat(level, blockPos, blockState, player).consumesAction()) {
-                return InteractionResult.SUCCESS;
-            }
-            if (itemStack.isEmpty()) {
-                return InteractionResult.CONSUME;
-            }
+            return ItemInteractionResult.SUCCESS;
         }
 
         if (itemStack.is(ModTags.KNIVES)) {
-            return cutSlice(level, blockPos, blockState, player);
+            return ItemInteractionResult.SUCCESS;
         }
 
-        return eat(level,blockPos,blockState,player);
+        return eat(level, blockPos, blockState, player).consumesAction()
+                ? ItemInteractionResult.SUCCESS
+                : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState blockState, Level level, BlockPos blockPos, Player player, BlockHitResult blockHitResult) {
+        return eat(level, blockPos, blockState, player);
     }
 
     protected InteractionResult cutSlice(Level level, BlockPos pos, BlockState state, Player player) {
@@ -143,7 +137,7 @@ public class DurianCakeBlock extends Block {
     }
 
     @Override
-    public boolean isPathfindable(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, PathComputationType pathComputationType) {
+    protected boolean isPathfindable(BlockState blockState, PathComputationType pathComputationType) {
         return false;
     }
 }

@@ -1,6 +1,6 @@
 package net.firemuffin303.thaidelight.common.registry;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.firemuffin303.thaidelight.common.world.feature.stateproviders.RandomHorizontalFacingStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
@@ -13,7 +13,7 @@ public class ModBlockStateProviderTypes {
             register("random_horizontal_facing",RandomHorizontalFacingStateProvider.CODEC);
 
     @ExpectPlatform
-    private static <P extends BlockStateProvider> Supplier<BlockStateProviderType<P>> register(String id, Codec<P> codec){
+    private static <P extends BlockStateProvider> Supplier<BlockStateProviderType<P>> register(String id, MapCodec<P> codec){
         throw new AssertionError();
     }
 

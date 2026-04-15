@@ -1,33 +1,26 @@
 package net.firemuffin303.thaidelight.common.recipe.mortar;
 
-import com.google.gson.JsonObject;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 public class SimpleMortarRecipeSerializer<T extends MortarRecipe> implements RecipeSerializer<T> {
-    private final Factory<T> constructor;
-
     public SimpleMortarRecipeSerializer(Factory<T> constructor) {
-        this.constructor = constructor;
     }
 
     @FunctionalInterface
     public interface Factory<T extends MortarRecipe> {
-        T create(ResourceLocation resourceLocation);
+        T create(net.minecraft.resources.ResourceLocation resourceLocation);
     }
 
     @Override
-    public T fromJson(ResourceLocation resourceLocation, JsonObject jsonObject) {
-        return this.constructor.create(resourceLocation);
+    public MapCodec<T> codec() {
+        throw new UnsupportedOperationException("SimpleMortarRecipeSerializer codec migration is not implemented yet.");
     }
 
     @Override
-    public T fromNetwork(ResourceLocation resourceLocation, FriendlyByteBuf friendlyByteBuf) {
-        return this.constructor.create(resourceLocation);
-    }
-
-    @Override
-    public void toNetwork(FriendlyByteBuf friendlyByteBuf, T recipe) {
+    public StreamCodec<RegistryFriendlyByteBuf, T> streamCodec() {
+        throw new UnsupportedOperationException("SimpleMortarRecipeSerializer stream codec migration is not implemented yet.");
     }
 }

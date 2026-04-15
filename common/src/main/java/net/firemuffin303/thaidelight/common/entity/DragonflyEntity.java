@@ -97,10 +97,10 @@ public class DragonflyEntity extends Animal implements VariantHolder<DragonflyEn
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(DATA_VARIANT, 0);
-        this.entityData.define(FROM_BOTTLE, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_VARIANT, 0);
+        builder.define(FROM_BOTTLE, false);
     }
 
     protected void registerGoals() {
@@ -244,7 +244,7 @@ public class DragonflyEntity extends Animal implements VariantHolder<DragonflyEn
         }
         RandomSource randomSource = serverLevelAccessor.getRandom();
         this.setVariant(DragonflyVariant.byId(randomSource.nextInt(0,4)));
-        return super.finalizeSpawn(serverLevelAccessor, difficultyInstance,mobSpawnType,spawnGroupData, compoundTag);
+        return super.finalizeSpawn(serverLevelAccessor, difficultyInstance,mobSpawnType,spawnGroupData);
     }
 
     static class DragonflyMoveControl extends MoveControl {

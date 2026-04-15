@@ -1,0 +1,10 @@
+Exception in thread "main" java.lang.ClassNotFoundException: net.fabricmc.loader.launch.knot.KnotClient
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:423)
+	at java.base/java.lang.Class.forName(Class.java:414)
+	at net.fabricmc.devlaunchinjector.Main.main(Main.java:85)
+	at dev.architectury.transformer.TransformerRuntime.main(TransformerRuntime.java:220)
+^C

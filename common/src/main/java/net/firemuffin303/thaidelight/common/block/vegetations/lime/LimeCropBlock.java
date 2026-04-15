@@ -1,6 +1,7 @@
 package net.firemuffin303.thaidelight.common.block.vegetations.lime;
 
 import net.firemuffin303.thaidelight.common.registry.ModItems;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -8,6 +9,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -28,6 +30,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class LimeCropBlock extends BushBlock implements BonemealableBlock {
+    public static final MapCodec<LimeCropBlock> CODEC = simpleCodec(LimeCropBlock::new);
     public static final IntegerProperty AGE = BlockStateProperties.AGE_2;
 
     private static final VoxelShape SAPLING_SHAPE = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 8.0D, 13.0D);
@@ -36,6 +39,11 @@ public class LimeCropBlock extends BushBlock implements BonemealableBlock {
     public LimeCropBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
+    }
+
+    @Override
+    protected MapCodec<? extends BushBlock> codec() {
+        return CODEC;
     }
 
 
@@ -59,11 +67,11 @@ public class LimeCropBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+    public ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         int i = (Integer)blockState.getValue(AGE);
         boolean flag = i == 2;
-        if (!flag && player.getItemInHand(interactionHand).is(Items.BONE_MEAL)) {
-            return InteractionResult.PASS;
+        if (!flag && itemStack.is(Items.BONE_MEAL)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         } else if (flag) {
             int j = 2 + level.random.nextInt(3);
             int k = level.random.nextInt(4);
@@ -77,9 +85,9 @@ public class LimeCropBlock extends BushBlock implements BonemealableBlock {
             BlockState blockstate = (BlockState)blockState.setValue(AGE, 0);
             level.setBlock(blockPos, blockstate, 2);
             level.gameEvent(GameEvent.BLOCK_CHANGE, blockPos, GameEvent.Context.of(player, blockstate));
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
         } else {
-            return super.use(blockState, level, blockPos, player, interactionHand, blockHitResult);
+            return super.useItemOn(itemStack, blockState, level, blockPos, player, interactionHand, blockHitResult);
         }
     }
 
@@ -88,14 +96,14 @@ public class LimeCropBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    public ItemStack getCloneItemStack(BlockGetter blockGetter, BlockPos blockPos, BlockState blockState) {
+    public ItemStack getCloneItemStack(LevelReader blockGetter, BlockPos blockPos, BlockState blockState) {
         return new ItemStack(ModItems.LIME_SAPLING.get());
     }
 
     //--- Bonemeal ---
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState, boolean bl) {
+    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState) {
         return blockState.getValue(AGE) < 2;
     }
 

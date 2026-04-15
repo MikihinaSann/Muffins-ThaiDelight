@@ -21,6 +21,7 @@ import net.firemuffin303.thaidelight.common.block.vegetations.papaya.*;
 import net.firemuffin303.thaidelight.common.block.vegetations.pepper.PepperCropBlock;
 import net.firemuffin303.thaidelight.common.block.stations.MortarBlock;
 import net.firemuffin303.thaidelight.common.block.util.ModDoorBlock;
+import net.firemuffin303.thaidelight.common.block.util.ModButtonBlock;
 import net.firemuffin303.thaidelight.common.block.util.ModPressurePlateBlock;
 import net.firemuffin303.thaidelight.common.block.util.ModStairBlock;
 import net.firemuffin303.thaidelight.common.block.util.ModTrapDoorBlock;
@@ -31,6 +32,7 @@ import net.firemuffin303.thaidelight.common.world.trees.MangoTreeGrower;
 import net.firemuffin303.thaidelight.common.world.trees.PapayaTreeGrower;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffect;
@@ -77,13 +79,13 @@ public class ModBlocks {
     public static final Supplier<Block> BUTTERFLY_PEA_CRATE = registerCrate("butterfly_pea_crate");
 
     //Eggs
-    public static final Supplier<Block> CRAB_EGG = register("flower_crab_egg",() ->  new CrabEggBlock(BlockBehaviour.Properties.copy(Blocks.FROGSPAWN)));
+    public static final Supplier<Block> CRAB_EGG = register("flower_crab_egg",() ->  new CrabEggBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FROGSPAWN)));
 
     //Wild Crops
-    public static final Supplier<Block> WILD_PEPPER_CROP = register("wild_pepper", createWildCropBlock(MobEffects.CONFUSION,6,BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
-    public static final Supplier<Block> WILD_BASIL = register("wild_basil",createWildCropBlock(MobEffects.HUNGER,6,BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
+    public static final Supplier<Block> WILD_PEPPER_CROP = register("wild_pepper", createWildCropBlock(MobEffects.CONFUSION,6,BlockBehaviour.Properties.ofFullCopy(Blocks.TALL_GRASS)));
+    public static final Supplier<Block> WILD_BASIL = register("wild_basil",createWildCropBlock(MobEffects.HUNGER,6,BlockBehaviour.Properties.ofFullCopy(Blocks.TALL_GRASS)));
     public static final Supplier<Block> POTTED_BASIL = register("potted_basil",() -> flowerPot(ModBlocks.WILD_BASIL.get()));
-    public static final Supplier<Block> WILD_HOLY_BASIL = register("wild_holy_basil",createWildCropBlock(MobEffects.HUNGER,6,BlockBehaviour.Properties.copy(Blocks.TALL_GRASS)));
+    public static final Supplier<Block> WILD_HOLY_BASIL = register("wild_holy_basil",createWildCropBlock(MobEffects.HUNGER,6,BlockBehaviour.Properties.ofFullCopy(Blocks.TALL_GRASS)));
     public static final Supplier<Block> POTTED_HOLY_BASIL = register("potted_holy_basil",() -> flowerPot(ModBlocks.WILD_HOLY_BASIL.get()));
 
 
@@ -92,12 +94,12 @@ public class ModBlocks {
     //## Lime
     public static final Supplier<Block> LIME_PLANT = register("lime_plant",() -> new LimePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).randomTicks().noCollission().sound(SoundType.AZALEA_LEAVES).ignitedByLava().pushReaction(PushReaction.DESTROY)));
 
-    public static final Supplier<Block> LIME_SAPLING = register("lime_sapling",() -> new LimeSaplingBlock(BlockBehaviour.Properties.copy(OAK_SAPLING)));
+    public static final Supplier<Block> LIME_SAPLING = register("lime_sapling",() -> new LimeSaplingBlock(BlockBehaviour.Properties.ofFullCopy(OAK_SAPLING)));
     public static final Supplier<Block> POTTED_LIME_SAPLING = register("potted_lime_sapling",() ->  flowerPot(ModBlocks.LIME_SAPLING.get()));
     public static final Supplier<Block> LIME_BLOCK = register("lime_block",() -> new LimeBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(1.0F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY)));
 
-    public static final Supplier<Block> PEPPER_CROP = register("pepper_crop",() -> new PepperCropBlock(BlockBehaviour.Properties.copy(Blocks.POTATOES)));
-    public static final Supplier<Block> BUDDING_PEPPER_CROP = register("budding_pepper_crop",createBuddingPepperBlock(BlockBehaviour.Properties.copy(POTATOES)));
+    public static final Supplier<Block> PEPPER_CROP = register("pepper_crop",() -> new PepperCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POTATOES)));
+    public static final Supplier<Block> BUDDING_PEPPER_CROP = register("budding_pepper_crop",createBuddingPepperBlock(BlockBehaviour.Properties.ofFullCopy(POTATOES)));
 
     //Durian
     public static final Supplier<Block> DURIAN_SAPLING = register("durian_sapling",() ->  new ModSaplingBlock(DurianTreeGrower.GROWER, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
@@ -109,7 +111,7 @@ public class ModBlocks {
     public static final Supplier<Block> SMALL_DURIAN_BLOCK = register("small_durian",() -> new SmallDurianBlock(
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(1.0F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final Supplier<Block> DURIAN_BLOCK = register("durian",() -> new DurianBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(1.0F).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY)));
-    public static final Supplier<Block> DURIAN_LEAVES = register("durian_leaves",() -> new DurianLeaveBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
+    public static final Supplier<Block> DURIAN_LEAVES = register("durian_leaves",() -> new DurianLeaveBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
 
     //Durian Woodset
     public static final Supplier<Block> DURIAN_LOG = register("durian_log",() ->  log(MapColor.COLOR_LIGHT_GREEN, MapColor.COLOR_RED));
@@ -118,15 +120,15 @@ public class ModBlocks {
     public static final Supplier<Block> STRIPPED_DURIAN_WOOD = register("stripped_durian_wood",() -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
     public static final Supplier<Block> DURIAN_PLANKS = register("durian_planks",() -> new Block(BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_LIGHT_GREEN).instrument(NoteBlockInstrument.BASS).strength(2.0f,3.0f).sound(SoundType.WOOD).ignitedByLava()));
-    public static final Supplier<Block> DURIAN_STAIRS = register("durian_stairs",() ->  new ModStairBlock(DURIAN_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(DURIAN_PLANKS.get())));
-    public static final Supplier<Block> DURIAN_SLAB = register("durian_slab",() -> new SlabBlock(BlockBehaviour.Properties.copy(DURIAN_PLANKS.get())));
-    public static final Supplier<Block> DURIAN_FENCE = register("durian_fence", () -> new FenceBlock(BlockBehaviour.Properties.copy(DURIAN_PLANKS.get())));
-    public static final Supplier<Block> DURIAN_FENCE_GATE = register("durian_fence_gate",() -> new FenceGateBlock(BlockBehaviour.Properties.of()
+    public static final Supplier<Block> DURIAN_STAIRS = register("durian_stairs",() ->  new ModStairBlock(DURIAN_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(DURIAN_PLANKS.get())));
+    public static final Supplier<Block> DURIAN_SLAB = register("durian_slab",() -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(DURIAN_PLANKS.get())));
+    public static final Supplier<Block> DURIAN_FENCE = register("durian_fence", () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(DURIAN_PLANKS.get())));
+    public static final Supplier<Block> DURIAN_FENCE_GATE = register("durian_fence_gate",() -> new FenceGateBlock(ModBlockSetTypes.DURIAN_WOOD_TYPE, BlockBehaviour.Properties.of()
             .mapColor(DURIAN_PLANKS.get().defaultMapColor())
             .forceSolidOn()
             .instrument(NoteBlockInstrument.BASS)
             .strength(2.0f,3.0f)
-            .ignitedByLava(), ModBlockSetTypes.DURIAN_WOOD_TYPE));
+            .ignitedByLava()));
     public static final Supplier<Block> DURIAN_DOOR = register("durian_door",() -> new ModDoorBlock(BlockBehaviour.Properties.of()
             .mapColor(DURIAN_PLANKS.get().defaultMapColor())
             .instrument(NoteBlockInstrument.BASS)
@@ -215,7 +217,7 @@ public class ModBlocks {
     public static final Supplier<Block> COCONUT = register("coconut",() ->new CoconutBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(1.0F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final Supplier<Block> STRIPPED_COCONUT = register("stripped_coconut",() ->new CoconutBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).strength(1.0f).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final Supplier<Block> COCONUT_SAPLING_CROP = register("coconut_sapling_crop",() ->new CoconutSaplingCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
-    public static final Supplier<Block> COCONUT_SAPLING = register("coconut_sapling",() ->new CoconutSaplingBlock(BlockBehaviour.Properties.copy(OAK_SAPLING)){
+    public static final Supplier<Block> COCONUT_SAPLING = register("coconut_sapling",() ->new CoconutSaplingBlock(BlockBehaviour.Properties.ofFullCopy(OAK_SAPLING)){
         @Override
         public boolean mayPlaceOn(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
             return super.mayPlaceOn(blockState, blockGetter, blockPos) || blockState.is(BlockTags.SAND);
@@ -267,16 +269,15 @@ public class ModBlocks {
             .mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
     public static final Supplier<Block> COCONUT_PLANKS = register("coconut_planks",() ->new Block(BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_LIGHT_GREEN).instrument(NoteBlockInstrument.BASS).strength(2.0f,3.0f).sound(SoundType.WOOD).ignitedByLava()));
-    public static final Supplier<Block> COCONUT_STAIRS = register("coconut_stairs",() ->new ModStairBlock(COCONUT_PLANKS.get().defaultBlockState(),BlockBehaviour.Properties.copy(COCONUT_PLANKS.get())));
-    public static final Supplier<Block> COCONUT_SLAB = register("coconut_slab",() ->new SlabBlock(BlockBehaviour.Properties.copy(COCONUT_PLANKS.get())));
-    public static final Supplier<Block> COCONUT_FENCE = register("coconut_fence",() ->new FenceBlock(BlockBehaviour.Properties.copy(COCONUT_PLANKS.get())));
-    public static final Supplier<Block> COCONUT_FENCE_GATE = register("coconut_fence_gate",() ->new FenceGateBlock(BlockBehaviour.Properties.of()
+    public static final Supplier<Block> COCONUT_STAIRS = register("coconut_stairs",() ->new ModStairBlock(COCONUT_PLANKS.get().defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(COCONUT_PLANKS.get())));
+    public static final Supplier<Block> COCONUT_SLAB = register("coconut_slab",() ->new SlabBlock(BlockBehaviour.Properties.ofFullCopy(COCONUT_PLANKS.get())));
+    public static final Supplier<Block> COCONUT_FENCE = register("coconut_fence",() ->new FenceBlock(BlockBehaviour.Properties.ofFullCopy(COCONUT_PLANKS.get())));
+    public static final Supplier<Block> COCONUT_FENCE_GATE = register("coconut_fence_gate",() ->new FenceGateBlock(ModBlockSetTypes.COCONUT_WOOD_TYPE, BlockBehaviour.Properties.of()
             .mapColor(COCONUT_PLANKS.get().defaultMapColor())
             .forceSolidOn()
             .instrument(NoteBlockInstrument.BASS)
             .strength(2.0f,3.0f)
-            .ignitedByLava(),
-            ModBlockSetTypes.COCONUT_WOOD_TYPE
+            .ignitedByLava()
     ));
     public static final Supplier<Block> COCONUT_DOOR = register("coconut_door",() ->new ModDoorBlock(BlockBehaviour.Properties.of()
             .mapColor(COCONUT_PLANKS.get().defaultMapColor())
@@ -357,9 +358,9 @@ public class ModBlocks {
     public static final Supplier<Block> COCONUT_LEAF_CARPET = register("coconut_leaf_carpet",() ->new CarpetBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).strength(0.1f).sound(SoundType.MOSS_CARPET).pushReaction(PushReaction.DESTROY)));
 
     //----------------- Mango -----------
-    public static final Supplier<Block> MANGO_SAPLING = register("mango_sapling",() ->new ModSaplingBlock(MangoTreeGrower.GROWER,BlockBehaviour.Properties.copy(OAK_SAPLING)));
+    public static final Supplier<Block> MANGO_SAPLING = register("mango_sapling",() ->new ModSaplingBlock(MangoTreeGrower.GROWER,BlockBehaviour.Properties.ofFullCopy(OAK_SAPLING)));
     public static final Supplier<Block> POTTED_MANGO_SAPLING = register("potted_mango_sapling",() ->flowerPot(ModBlocks.MANGO_SAPLING.get()));
-    public static final Supplier<Block> MANGO_LEAVES = register("mango_leaves",() ->new MangoLeavesBlock(BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES)));
+    public static final Supplier<Block> MANGO_LEAVES = register("mango_leaves",() ->new MangoLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)));
     public static final Supplier<Block> STACKABLE_MANGO_BLOCK = register("stackable_mango_block",() -> new StackableMangoBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(1.0F).sound(SoundType.WOOD).noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final Supplier<Block> HANGING_MANGO_BLOCK = register("mango_block",() ->new HangingMangoBlock(
             BlockBehaviour.Properties.of()
@@ -377,16 +378,15 @@ public class ModBlocks {
     public static final Supplier<Block> STRIPPED_MANGO_WOOD = register("stripped_mango_wood",() -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
     public static final Supplier<Block> MANGO_PLANKS = register("mango_planks",() -> new Block(BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_LIGHT_GREEN).instrument(NoteBlockInstrument.BASS).strength(2.0f,3.0f).sound(SoundType.WOOD).ignitedByLava()));
-    public static final Supplier<Block> MANGO_STAIRS = register("mango_stairs",() ->new ModStairBlock(MANGO_PLANKS.get().defaultBlockState(),BlockBehaviour.Properties.copy(MANGO_PLANKS.get())));
-    public static final Supplier<Block> MANGO_SLAB = register("mango_slab",() ->new SlabBlock(BlockBehaviour.Properties.copy(MANGO_PLANKS.get())));
-    public static final Supplier<Block> MANGO_FENCE = register("mango_fence",() ->new FenceBlock(BlockBehaviour.Properties.copy(MANGO_PLANKS.get())));
-    public static final Supplier<Block> MANGO_FENCE_GATE = register("mango_fence_gate",() ->new FenceGateBlock(BlockBehaviour.Properties.of()
+    public static final Supplier<Block> MANGO_STAIRS = register("mango_stairs",() ->new ModStairBlock(MANGO_PLANKS.get().defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(MANGO_PLANKS.get())));
+    public static final Supplier<Block> MANGO_SLAB = register("mango_slab",() ->new SlabBlock(BlockBehaviour.Properties.ofFullCopy(MANGO_PLANKS.get())));
+    public static final Supplier<Block> MANGO_FENCE = register("mango_fence",() ->new FenceBlock(BlockBehaviour.Properties.ofFullCopy(MANGO_PLANKS.get())));
+    public static final Supplier<Block> MANGO_FENCE_GATE = register("mango_fence_gate",() ->new FenceGateBlock(ModBlockSetTypes.MANGO_WOOD_TYPE, BlockBehaviour.Properties.of()
             .mapColor(MANGO_PLANKS.get().defaultMapColor())
             .forceSolidOn()
             .instrument(NoteBlockInstrument.BASS)
             .strength(2.0f,3.0f)
-            .ignitedByLava(),
-            ModBlockSetTypes.MANGO_WOOD_TYPE
+            .ignitedByLava()
     ));
     public static final Supplier<Block> MANGO_DOOR = register("mango_door",() ->new ModDoorBlock(BlockBehaviour.Properties.of()
             .mapColor(MANGO_PLANKS.get().defaultMapColor())
@@ -485,7 +485,7 @@ public class ModBlocks {
             .pushReaction(PushReaction.DESTROY)
             .isRedstoneConductor((b,a,c) -> false)));
 
-    public static final Supplier<Block> PAPAYA_LEAVES_STEM = register("papaya_leaves_stem",() -> new PapayaLeavesStemBlock(BlockBehaviour.Properties.copy(PAPAYA_LEAVES.get())));
+    public static final Supplier<Block> PAPAYA_LEAVES_STEM = register("papaya_leaves_stem",() -> new PapayaLeavesStemBlock(BlockBehaviour.Properties.ofFullCopy(PAPAYA_LEAVES.get())));
 
     public static final Supplier<Block> WALL_PAPAYA_LEAVES = register("wall_papaya_leaves",() ->new WallPapayaLeavesBlock(BlockBehaviour.Properties.of()
             .mapColor(MapColor.PLANT)
@@ -516,29 +516,29 @@ public class ModBlocks {
             .emissiveRendering((blockState, blockGetter, blockPos) -> blockState.getValue(PapayaFlowerBlock.LIT))
             .lightLevel(blockstate -> blockstate.getValue(PapayaFlowerBlock.LIT) ? 1 : 0)
     ));
-    public static final Supplier<Block> WALL_PAPAYA_FLOWER = register("wall_papaya_flower",() -> new WallPapayaFlowerBlock(BlockBehaviour.Properties.copy(PAPAYA_FLOWER.get())));
+    public static final Supplier<Block> WALL_PAPAYA_FLOWER = register("wall_papaya_flower",() -> new WallPapayaFlowerBlock(BlockBehaviour.Properties.ofFullCopy(PAPAYA_FLOWER.get())));
 
     public static final Supplier<Block> PAPAYA_SAPLING = register("papaya_sapling",() ->new ModSaplingBlock(PapayaTreeGrower.GROWER, BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
     public static final Supplier<Block> PAPAYA_CROP = register("papaya_crop",() ->new PapayaCropBlock(BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
 
-    public static final Supplier<Block> STACKABLE_PAPAYA = register("stackable_papaya",() -> new StackablePapayaBlock(BlockBehaviour.Properties.copy(ModBlocks.LIME_BLOCK.get()), () -> ModItems.PAPAYA.get()));
-    public static final Supplier<Block> STACKABLE_RAW_PAPAYA = register("stackable_raw_papaya",() -> new StackablePapayaBlock(BlockBehaviour.Properties.copy(ModBlocks.LIME_BLOCK.get()),() -> ModItems.RAW_PAPAYA.get()));
+    public static final Supplier<Block> STACKABLE_PAPAYA = register("stackable_papaya",() -> new StackablePapayaBlock(BlockBehaviour.Properties.ofFullCopy(ModBlocks.LIME_BLOCK.get()), () -> ModItems.PAPAYA.get()));
+    public static final Supplier<Block> STACKABLE_RAW_PAPAYA = register("stackable_raw_papaya",() -> new StackablePapayaBlock(BlockBehaviour.Properties.ofFullCopy(ModBlocks.LIME_BLOCK.get()),() -> ModItems.RAW_PAPAYA.get()));
 
     //Cauldron
-    public static final Supplier<Block> FERMENTED_FISH_CAULDRON = register("fermented_fish_cauldron",() ->new FermentedFishCauldronBlock(BlockBehaviour.Properties.copy(CAULDRON),ModCauldronInteraction.FERMENTED_FISH));
-    public static final Supplier<Block> COCONUT_CAULDRON = register("coconut_cauldron",() ->new CoconutCauldron(BlockBehaviour.Properties.copy(CAULDRON)));
-    public static final Supplier<Block> COCONUT_MILK_CAULDRON = register("coconut_milk_cauldron",() ->new CoconutMilkCauldron(BlockBehaviour.Properties.copy(CAULDRON)));
+    public static final Supplier<Block> FERMENTED_FISH_CAULDRON = register("fermented_fish_cauldron",() ->new FermentedFishCauldronBlock(BlockBehaviour.Properties.ofFullCopy(CAULDRON),ModCauldronInteraction.FERMENTED_FISH));
+    public static final Supplier<Block> COCONUT_CAULDRON = register("coconut_cauldron",() ->new CoconutCauldron(BlockBehaviour.Properties.ofFullCopy(CAULDRON)));
+    public static final Supplier<Block> COCONUT_MILK_CAULDRON = register("coconut_milk_cauldron",() ->new CoconutMilkCauldron(BlockBehaviour.Properties.ofFullCopy(CAULDRON)));
 
 
     // 🌿 BASIL 🌿
-    public static final Supplier<Block> BASIL = register("basil",() ->new BasilCropBlock(BlockBehaviour.Properties.copy(Blocks.POTATOES),ModLootTables.BASIL_HARVEST,ModLootTables.BASIL_SHEARS){
+    public static final Supplier<Block> BASIL = register("basil",() ->new BasilCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POTATOES),ModLootTables.BASIL_HARVEST,ModLootTables.BASIL_SHEARS){
         @Override
         protected ItemLike getBaseSeedId() {
             return ModItems.BASIL.get();
         }
     });
 
-    public static final Supplier<Block> HOLY_BASIL = register("holy_basil",() ->new BasilCropBlock(BlockBehaviour.Properties.copy(Blocks.POTATOES),ModLootTables.HOLY_BASIL_HARVEST,ModLootTables.HOLY_BASIL_SHEARS){
+    public static final Supplier<Block> HOLY_BASIL = register("holy_basil",() ->new BasilCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POTATOES),ModLootTables.HOLY_BASIL_HARVEST,ModLootTables.HOLY_BASIL_SHEARS){
         @Override
         protected ItemLike getBaseSeedId() {
             return ModItems.HOLY_BASIL.get();
@@ -547,27 +547,27 @@ public class ModBlocks {
 
 
     public static final Supplier<Block> BUDDING_BUTTERFLY_PEA_BLOCK = register("budding_butterfly_pea",createButterflyPeaBlock());
-    public static final Supplier<Block> BUTTERFLY_PEA_BLOCK = register("butterfly_pea_vine",() ->new ButterflyPeaVineBlock(BlockBehaviour.Properties.copy(WHEAT)));
-    public static final Supplier<Block> BUTTERFLY_PEA_WALL = register("butterfly_pea_wall",() -> new WallFlowerBlock(BlockBehaviour.Properties.copy(SPORE_BLOSSOM),MobEffects.HEAL,1));
+    public static final Supplier<Block> BUTTERFLY_PEA_BLOCK = register("butterfly_pea_vine",() ->new ButterflyPeaVineBlock(BlockBehaviour.Properties.ofFullCopy(WHEAT)));
+    public static final Supplier<Block> BUTTERFLY_PEA_WALL = register("butterfly_pea_wall",() -> new WallFlowerBlock(BlockBehaviour.Properties.ofFullCopy(SPORE_BLOSSOM),MobEffects.HEAL,1));
 
-    public static final Supplier<Block> DURIAN_CAKE = register("durian_cake",() -> new DurianCakeBlock(BlockBehaviour.Properties.copy(CAKE)));
-    public static final Supplier<Block> CANDLE_DURIAN_CAKE = register("candle_durian_cake",() ->new CandleDurianCakeBlock(CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> WHITE_CANDLE_DURIAN_CAKE = register("white_candle_durian_cake",() ->new CandleDurianCakeBlock(WHITE_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> ORANGE_CANDLE_DURIAN_CAKE = register("orange_candle_durian_cake",() ->new CandleDurianCakeBlock(ORANGE_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> MAGENTA_CANDLE_DURIAN_CAKE = register("magenta_candle_durian_cake",() ->new CandleDurianCakeBlock(MAGENTA_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> LIGHT_BLUE_CANDLE_DURIAN_CAKE = register("light_blue_candle_durian_cake",() ->new CandleDurianCakeBlock(LIGHT_BLUE_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> YELLOW_CANDLE_DURIAN_CAKE = register("yellow_candle_durian_cake",() ->new CandleDurianCakeBlock(YELLOW_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> LIME_CANDLE_DURIAN_CAKE = register("lime_candle_durian_cake",() ->new CandleDurianCakeBlock(LIME_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> PINK_CANDLE_DURIAN_CAKE = register("pink_candle_durian_cake",() ->new CandleDurianCakeBlock(PINK_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> GRAY_CANDLE_DURIAN_CAKE = register("gray_candle_durian_cake",() ->new CandleDurianCakeBlock(GRAY_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> LIGHT_GRAY_CANDLE_DURIAN_CAKE = register("light_gray_candle_durian_cake",() ->new CandleDurianCakeBlock(LIGHT_GRAY_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> CYAN_CANDLE_DURIAN_CAKE = register("cyan_candle_durian_cake",() ->new CandleDurianCakeBlock(CYAN_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> PURPLE_CANDLE_DURIAN_CAKE = register("purple_candle_durian_cake",() ->new CandleDurianCakeBlock(PURPLE_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> BLUE_CANDLE_DURIAN_CAKE = register("blue_candle_durian_cake",() ->new CandleDurianCakeBlock(BLUE_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> BROWN_CANDLE_DURIAN_CAKE = register("brown_candle_durian_cake",() ->new CandleDurianCakeBlock(BROWN_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> GREEN_CANDLE_DURIAN_CAKE = register("green_candle_durian_cake",() ->new CandleDurianCakeBlock(GREEN_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> RED_CANDLE_DURIAN_CAKE = register("red_candle_durian_cake",() ->new CandleDurianCakeBlock(RED_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
-    public static final Supplier<Block> BLACK_CANDLE_DURIAN_CAKE = register("black_candle_durian_cake",() ->new CandleDurianCakeBlock(BLACK_CANDLE,BlockBehaviour.Properties.copy(CANDLE_CAKE)));
+    public static final Supplier<Block> DURIAN_CAKE = register("durian_cake",() -> new DurianCakeBlock(BlockBehaviour.Properties.ofFullCopy(CAKE)));
+    public static final Supplier<Block> CANDLE_DURIAN_CAKE = register("candle_durian_cake",() ->new CandleDurianCakeBlock(CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> WHITE_CANDLE_DURIAN_CAKE = register("white_candle_durian_cake",() ->new CandleDurianCakeBlock(WHITE_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> ORANGE_CANDLE_DURIAN_CAKE = register("orange_candle_durian_cake",() ->new CandleDurianCakeBlock(ORANGE_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> MAGENTA_CANDLE_DURIAN_CAKE = register("magenta_candle_durian_cake",() ->new CandleDurianCakeBlock(MAGENTA_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> LIGHT_BLUE_CANDLE_DURIAN_CAKE = register("light_blue_candle_durian_cake",() ->new CandleDurianCakeBlock(LIGHT_BLUE_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> YELLOW_CANDLE_DURIAN_CAKE = register("yellow_candle_durian_cake",() ->new CandleDurianCakeBlock(YELLOW_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> LIME_CANDLE_DURIAN_CAKE = register("lime_candle_durian_cake",() ->new CandleDurianCakeBlock(LIME_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> PINK_CANDLE_DURIAN_CAKE = register("pink_candle_durian_cake",() ->new CandleDurianCakeBlock(PINK_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> GRAY_CANDLE_DURIAN_CAKE = register("gray_candle_durian_cake",() ->new CandleDurianCakeBlock(GRAY_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> LIGHT_GRAY_CANDLE_DURIAN_CAKE = register("light_gray_candle_durian_cake",() ->new CandleDurianCakeBlock(LIGHT_GRAY_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> CYAN_CANDLE_DURIAN_CAKE = register("cyan_candle_durian_cake",() ->new CandleDurianCakeBlock(CYAN_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> PURPLE_CANDLE_DURIAN_CAKE = register("purple_candle_durian_cake",() ->new CandleDurianCakeBlock(PURPLE_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> BLUE_CANDLE_DURIAN_CAKE = register("blue_candle_durian_cake",() ->new CandleDurianCakeBlock(BLUE_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> BROWN_CANDLE_DURIAN_CAKE = register("brown_candle_durian_cake",() ->new CandleDurianCakeBlock(BROWN_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> GREEN_CANDLE_DURIAN_CAKE = register("green_candle_durian_cake",() ->new CandleDurianCakeBlock(GREEN_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> RED_CANDLE_DURIAN_CAKE = register("red_candle_durian_cake",() ->new CandleDurianCakeBlock(RED_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
+    public static final Supplier<Block> BLACK_CANDLE_DURIAN_CAKE = register("black_candle_durian_cake",() ->new CandleDurianCakeBlock(BLACK_CANDLE,BlockBehaviour.Properties.ofFullCopy(CANDLE_CAKE)));
 
 
     //Feast
@@ -575,9 +575,9 @@ public class ModBlocks {
     public static final Supplier<Block> LARB_FEAST = register("larb_feast",createLarbFeast());
     public static final Supplier<Block> CRAB_FRIED_RICE_FEAST = register("crab_fried_rice_feast",createCrabFriedRice());
 
-    public static final Supplier<Block> MANGO_CHEESECAKE = register("mango_cheesecake",createPieBlock(BlockBehaviour.Properties.copy(CAKE), ModItems.MANGO_CHEESECAKE_SLICE));
+    public static final Supplier<Block> MANGO_CHEESECAKE = register("mango_cheesecake",createPieBlock(BlockBehaviour.Properties.ofFullCopy(CAKE), ModItems.MANGO_CHEESECAKE_SLICE));
     public static final Supplier<Block> COCONUT_PIE = register("coconut_pie",createCoconutPieBlock());
-    public static final Supplier<Block> HONEY_COCONUT_PIE = register("honey_coconut_pie",createPieBlock(BlockBehaviour.Properties.copy(CAKE),ModItems.HONEY_COCONUT_PIE_SLICE));
+    public static final Supplier<Block> HONEY_COCONUT_PIE = register("honey_coconut_pie",createPieBlock(BlockBehaviour.Properties.ofFullCopy(CAKE),ModItems.HONEY_COCONUT_PIE_SLICE));
 
     public static final Supplier<Block> PHAT_KAPHRAO_FEAST = register("phat_kaphrao_feast",createPhatKaphraoBlock());
     public static final Supplier<Block> MANGO_STICKY_RICE_FEAST = register("mango_sticky_rice_feast",createMangoStickyRiceBlock());
@@ -594,7 +594,7 @@ public class ModBlocks {
     }
 
     public static Supplier<Block> registerCrate(String id){
-        Supplier<Block> block = register(id,() -> new Block(BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS).destroyTime(2.0f).explosionResistance(3.0f).sound(SoundType.WOOD)));
+        Supplier<Block> block = register(id,() -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).destroyTime(2.0f).explosionResistance(3.0f).sound(SoundType.WOOD)));
         CRATES.add(block);
         return block;
     }
@@ -646,7 +646,7 @@ public class ModBlocks {
     }
 
     @ExpectPlatform
-    public static Supplier<Block> createWildCropBlock(MobEffect stewEffect, int effectDuration, BlockBehaviour.Properties properties){
+    public static Supplier<Block> createWildCropBlock(Holder<MobEffect> stewEffect, int effectDuration, BlockBehaviour.Properties properties){
         throw new AssertionError();
     }
 
@@ -716,7 +716,7 @@ public class ModBlocks {
     }
 
     private static ButtonBlock woodenButton(BlockSetType blockSetType) {
-        return new ButtonBlock(blockSetType, 30, BlockBehaviour.Properties.of().noCollission().strength(0.5F).pushReaction(PushReaction.DESTROY));
+        return new ModButtonBlock(blockSetType, 30, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON));
     }
 
     private static Boolean never(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, EntityType<?> entityType) {

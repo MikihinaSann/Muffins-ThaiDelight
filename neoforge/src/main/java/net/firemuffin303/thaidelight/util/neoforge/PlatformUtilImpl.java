@@ -15,6 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
@@ -28,7 +29,7 @@ import java.util.function.Supplier;
 public class PlatformUtilImpl {
 
     public static TagKey<Item> shearTag() {
-        return Tags.Items.TOOLS_SHEARS;
+        return Tags.Items.TOOLS_SHEAR;
     }
 
     public static Block richSoilBlock() {
@@ -96,27 +97,27 @@ public class PlatformUtilImpl {
     }
 
     public static void setSpicyTime(int value, LivingEntity livingEntity) {
-        livingEntity.getData(ModAttachmentTypes.SPICY.get()).setTimer(value);
+        ((IAttachmentHolder) livingEntity).getData(ModAttachmentTypes.SPICY.get()).setTimer(value);
     }
 
     public static void addSpicyTime(int value, LivingEntity livingEntity) {
-        livingEntity.getData(ModAttachmentTypes.SPICY.get()).addTimer(value);
+        ((IAttachmentHolder) livingEntity).getData(ModAttachmentTypes.SPICY.get()).addTimer(value);
     }
 
     public static int getSpicyTime(LivingEntity livingEntity) {
-        return livingEntity.getData(ModAttachmentTypes.SPICY.get()).getTimer();
+        return ((IAttachmentHolder) livingEntity).getData(ModAttachmentTypes.SPICY.get()).getTimer();
     }
 
     public static ModUtils.DurianComponentSupplier getDurianHeatComponent(LivingEntity livingEntity) {
-        var durianHeat = livingEntity.getData(ModAttachmentTypes.DURIAN_HEAT.get());
+        var durianHeat = ((IAttachmentHolder) livingEntity).getData(ModAttachmentTypes.DURIAN_HEAT.get());
         return new ModUtils.DurianComponentSupplier(durianHeat.getTimer(), durianHeat.isHeatUp());
     }
 
     public static void setDurianHeat(boolean value, LivingEntity livingEntity) {
-        livingEntity.getData(ModAttachmentTypes.DURIAN_HEAT.get()).setHeat(value);
+        ((IAttachmentHolder) livingEntity).getData(ModAttachmentTypes.DURIAN_HEAT.get()).setHeat(value);
     }
 
     public static void addDurianHeatTime(int i, LivingEntity livingEntity) {
-        livingEntity.getData(ModAttachmentTypes.DURIAN_HEAT.get()).addTimer(i);
+        ((IAttachmentHolder) livingEntity).getData(ModAttachmentTypes.DURIAN_HEAT.get()).addTimer(i);
     }
 }

@@ -20,10 +20,10 @@ public class ModDispenserBehavior {
         DefaultDispenseItemBehavior fishBehavior = new DefaultDispenseItemBehavior(){
             @Override
             protected ItemStack execute(BlockSource blockSource, ItemStack itemStack) {
-                Direction direction = blockSource.getBlockState().getValue(DispenserBlock.FACING);
-                BlockState blockState = blockSource.getLevel().getBlockState(blockSource.getPos().relative(direction));
+                Direction direction = blockSource.state().getValue(DispenserBlock.FACING);
+                BlockState blockState = blockSource.level().getBlockState(blockSource.pos().relative(direction));
                 if(blockState.is(Blocks.WATER_CAULDRON) && blockState.getValue(LayeredCauldronBlock.LEVEL) == 3){
-                    blockSource.getLevel().setBlock(blockSource.getPos().relative(direction),ModBlocks.FERMENTED_FISH_CAULDRON.get().defaultBlockState().setValue(FermentedFishCauldronBlock.LEVEL,3), 3);
+                    blockSource.level().setBlock(blockSource.pos().relative(direction),ModBlocks.FERMENTED_FISH_CAULDRON.get().defaultBlockState().setValue(FermentedFishCauldronBlock.LEVEL,3), 3);
                     itemStack.shrink(1);
                     return itemStack;
                 }
@@ -41,8 +41,8 @@ public class ModDispenserBehavior {
             private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
             @Override
             protected ItemStack execute(BlockSource blockSource, ItemStack itemStack) {
-                Direction direction = blockSource.getBlockState().getValue(DispenserBlock.FACING);
-                BlockState blockState = blockSource.getLevel().getBlockState(blockSource.getPos().relative(direction));
+                Direction direction = blockSource.state().getValue(DispenserBlock.FACING);
+                BlockState blockState = blockSource.level().getBlockState(blockSource.pos().relative(direction));
                 if(blockState.is(Blocks.CAULDRON) || blockState.is(ModBlocks.COCONUT_CAULDRON.get()) || blockState.is(ModBlocks.COCONUT_MILK_CAULDRON.get())){
                     if( (blockState.is(ModBlocks.COCONUT_CAULDRON.get()) && blockState.getValue(CoconutCauldron.LEVEL) >=3) || blockState.is(ModBlocks.COCONUT_MILK_CAULDRON.get())){
                         return itemStack;
@@ -50,7 +50,7 @@ public class ModDispenserBehavior {
 
                     int level = blockState.is(ModBlocks.COCONUT_CAULDRON.get()) ? blockState.getValue(CoconutCauldron.LEVEL) + 1 : 1;
                     level = Mth.clamp(level,1,3);
-                    blockSource.getLevel().setBlockAndUpdate(blockSource.getPos().relative(direction), ModBlocks.COCONUT_CAULDRON.get().defaultBlockState().setValue(FermentedFishCauldronBlock.LEVEL,level));
+                    blockSource.level().setBlockAndUpdate(blockSource.pos().relative(direction), ModBlocks.COCONUT_CAULDRON.get().defaultBlockState().setValue(FermentedFishCauldronBlock.LEVEL,level));
                     itemStack.shrink(1);
                     if(itemStack.isEmpty()){
                         return ModUtils.getCraftRemainder(itemStack.copy());

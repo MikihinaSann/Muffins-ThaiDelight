@@ -1,0 +1,28 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.0.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :
+Architect Plugin: 3.4.164
+Architectury Loom: 1.9.436
+You are using an outdated version of Architectury Loom! This version will not receive any support, please consider updating!
+
+> Task :neoforge:processResources UP-TO-DATE
+> Task :neoforge:generateLog4jConfig UP-TO-DATE
+> Task :neoforge:generateRemapClasspath UP-TO-DATE
+> Task :neoforge:generateDLIConfig UP-TO-DATE
+> Task :common:compileJava UP-TO-DATE
+> Task :common:processResources UP-TO-DATE
+> Task :common:classes UP-TO-DATE
+> Task :common:jar UP-TO-DATE
+> Task :neoforge:prepareArchitecturyTransformer
+> Task :neoforge:compileJava UP-TO-DATE
+> Task :neoforge:classes UP-TO-DATE
+> Task :neoforge:configureLaunch
+> Task :neoforge:downloadAssets UP-TO-DATE
+> Task :neoforge:configureClientLaunch
+
+> Task :neoforge:runClient
+[Architectury Transformer] Architectury Runtime 5.2.91
+[Architectury Transformer] Read classpath in 1.230 s
+[Architectury Transformer] Listening at C:\Users\nonza\.gradle\caches\modules-2\files-2.1\net.neoforged\neoforge\21.1.219\300c6ecf584eab19b4dca5e69cc2ee68d0d21f1f\neoforge-21.1.219-universal.jar
+[Architectury Transformer] Listening at C:\Users\nonza\Documents\GitHub\Muffins-ThaiDelight\common\build\devlibs\ThaisDelight-Refabricated-2.0-inhouse-testing-dev.jar

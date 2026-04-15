@@ -2,8 +2,6 @@ package net.firemuffin303.thaidelight.mixin.catachableFallingBlock;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.Share;
-import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import net.firemuffin303.thaidelight.common.block.SackBlock;
 import net.firemuffin303.thaidelight.common.item.SackItem;
 import net.firemuffin303.thaidelight.common.registry.ModBlocks;
@@ -23,7 +21,6 @@ import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -63,15 +60,11 @@ public abstract class FallingBlockEntityMixin extends Entity {
         return original;
     }
 
-    @Inject(method = "tick",at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/item/FallingBlockEntity;isNoGravity()Z"))
-    public void muffins$shareBlock(CallbackInfo ci,@Local Block block,@Share("shareBlock") LocalRef<Block> blockLocalRef){
-        blockLocalRef.set(block);
-    }
-
     @Inject(method = "tick",at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/item/FallingBlockEntity;onGround()Z")
     )
-    public void muffins$checkBagDrop(CallbackInfo ci, @Share("shareBlock") LocalRef<Block> block, @Local BlockPos blockPos){
+    public void muffins$checkBagDrop(CallbackInfo ci){
         if(!this.onGround() && this.blockState.is(ModTags.SACK_CATCHABLE)){
+            BlockPos blockPos = this.blockPosition();
 
             Predicate<Entity> predicate = EntitySelector.NO_SPECTATORS.and(EntitySelector.LIVING_ENTITY_STILL_ALIVE).and(entity -> {
                 if(entity instanceof Player player){
@@ -83,9 +76,9 @@ public abstract class FallingBlockEntityMixin extends Entity {
             List<Entity> list = this.level().getEntities(this,this.getBoundingBox().inflate(0.5,-0.3,0.5),predicate);
             if(!list.isEmpty()){
                 if(this.dropItem){
-                    if(list.get(0) instanceof Player player){
-                        if(!SackItem.onCatchingFallingBlock( player.getUseItem(), this.blockState.getBlock().asItem(), (ServerPlayer) player )){
-                            this.spawnAtLocation(block.get());
+                    if(list.get(0) instanceof ServerPlayer serverPlayer){
+                        if(!SackItem.onCatchingFallingBlock(serverPlayer.getUseItem(), this.blockState.getBlock().asItem(), serverPlayer)){
+                            this.spawnAtLocation(this.blockState.getBlock());
                         }
                     }
                 }
@@ -103,7 +96,7 @@ public abstract class FallingBlockEntityMixin extends Entity {
     }
 
     @Inject(method = "tick",at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/item/FallingBlockEntity;discard()V",ordinal = 3))
-    public void muffins$checkLandOnBlock(CallbackInfo ci,@Local Block block,@Local BlockPos blockPos){
+    public void muffins$checkLandOnBlock(CallbackInfo ci,@Local BlockPos blockPos){
         BlockState blockState1 = this.level().getBlockState(blockPos);
         if(this.blockState.is(ModTags.SACK_CATCHABLE) && (blockState1.is(ModBlocks.SACK.get()) && !blockState1.getValue(SackBlock.FILLED))){
             SackBlock sackBlock = (SackBlock) blockState1.getBlock();

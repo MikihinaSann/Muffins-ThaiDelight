@@ -1,0 +1,77 @@
+Compiled from "BlockStateProviderType.java"
+public class net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType<P extends net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider> {
+  public static final net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType<net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider> SIMPLE_STATE_PROVIDER;
+
+  public static final net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType<net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider> WEIGHTED_STATE_PROVIDER;
+
+  public static final net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType<net.minecraft.world.level.levelgen.feature.stateproviders.NoiseThresholdProvider> NOISE_THRESHOLD_PROVIDER;
+
+  public static final net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType<net.minecraft.world.level.levelgen.feature.stateproviders.NoiseProvider> NOISE_PROVIDER;
+
+  public static final net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType<net.minecraft.world.level.levelgen.feature.stateproviders.DualNoiseProvider> DUAL_NOISE_PROVIDER;
+
+  public static final net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType<net.minecraft.world.level.levelgen.feature.stateproviders.RotatedBlockProvider> ROTATED_BLOCK_PROVIDER;
+
+  public static final net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType<net.minecraft.world.level.levelgen.feature.stateproviders.RandomizedIntStateProvider> RANDOMIZED_INT_STATE_PROVIDER;
+
+  private final com.mojang.serialization.MapCodec<P> codec;
+
+  private static <P extends net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider> net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType<P> register(java.lang.String, com.mojang.serialization.MapCodec<P>);
+    Code:
+       0: getstatic     #35                 // Field net/minecraft/core/registries/BuiltInRegistries.BLOCKSTATE_PROVIDER_TYPE:Lnet/minecraft/core/Registry;
+       3: aload_0
+       4: new           #2                  // class net/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType
+       7: dup
+       8: aload_1
+       9: invokespecial #39                 // Method "<init>":(Lcom/mojang/serialization/MapCodec;)V
+      12: invokestatic  #44                 // InterfaceMethod net/minecraft/core/Registry.register:(Lnet/minecraft/core/Registry;Ljava/lang/String;Ljava/lang/Object;)Ljava/lang/Object;
+      15: checkcast     #2                  // class net/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType
+      18: areturn
+
+  public net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProviderType(com.mojang.serialization.MapCodec<P>);
+    Code:
+       0: aload_0
+       1: invokespecial #49                 // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: aload_1
+       6: putfield      #51                 // Field codec:Lcom/mojang/serialization/MapCodec;
+       9: return
+
+  public com.mojang.serialization.MapCodec<P> codec();
+    Code:
+       0: aload_0
+       1: getfield      #51                 // Field codec:Lcom/mojang/serialization/MapCodec;
+       4: areturn
+
+  static {};
+    Code:
+       0: ldc           #58                 // String simple_state_provider
+       2: getstatic     #63                 // Field net/minecraft/world/level/levelgen/feature/stateproviders/SimpleStateProvider.CODEC:Lcom/mojang/serialization/MapCodec;
+       5: invokestatic  #65                 // Method register:(Ljava/lang/String;Lcom/mojang/serialization/MapCodec;)Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+       8: putstatic     #67                 // Field SIMPLE_STATE_PROVIDER:Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+      11: ldc           #69                 // String weighted_state_provider
+      13: getstatic     #72                 // Field net/minecraft/world/level/levelgen/feature/stateproviders/WeightedStateProvider.CODEC:Lcom/mojang/serialization/MapCodec;
+      16: invokestatic  #65                 // Method register:(Ljava/lang/String;Lcom/mojang/serialization/MapCodec;)Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+      19: putstatic     #74                 // Field WEIGHTED_STATE_PROVIDER:Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+      22: ldc           #76                 // String noise_threshold_provider
+      24: getstatic     #79                 // Field net/minecraft/world/level/levelgen/feature/stateproviders/NoiseThresholdProvider.CODEC:Lcom/mojang/serialization/MapCodec;
+      27: invokestatic  #65                 // Method register:(Ljava/lang/String;Lcom/mojang/serialization/MapCodec;)Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+      30: putstatic     #81                 // Field NOISE_THRESHOLD_PROVIDER:Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+      33: ldc           #83                 // String noise_provider
+      35: getstatic     #86                 // Field net/minecraft/world/level/levelgen/feature/stateproviders/NoiseProvider.CODEC:Lcom/mojang/serialization/MapCodec;
+      38: invokestatic  #65                 // Method register:(Ljava/lang/String;Lcom/mojang/serialization/MapCodec;)Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+      41: putstatic     #88                 // Field NOISE_PROVIDER:Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+      44: ldc           #90                 // String dual_noise_provider
+      46: getstatic     #93                 // Field net/minecraft/world/level/levelgen/feature/stateproviders/DualNoiseProvider.CODEC:Lcom/mojang/serialization/MapCodec;
+      49: invokestatic  #65                 // Method register:(Ljava/lang/String;Lcom/mojang/serialization/MapCodec;)Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+      52: putstatic     #95                 // Field DUAL_NOISE_PROVIDER:Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+      55: ldc           #97                 // String rotated_block_provider
+      57: getstatic     #100                // Field net/minecraft/world/level/levelgen/feature/stateproviders/RotatedBlockProvider.CODEC:Lcom/mojang/serialization/MapCodec;
+      60: invokestatic  #65                 // Method register:(Ljava/lang/String;Lcom/mojang/serialization/MapCodec;)Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+      63: putstatic     #102                // Field ROTATED_BLOCK_PROVIDER:Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+      66: ldc           #104                // String randomized_int_state_provider
+      68: getstatic     #107                // Field net/minecraft/world/level/levelgen/feature/stateproviders/RandomizedIntStateProvider.CODEC:Lcom/mojang/serialization/MapCodec;
+      71: invokestatic  #65                 // Method register:(Ljava/lang/String;Lcom/mojang/serialization/MapCodec;)Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+      74: putstatic     #109                // Field RANDOMIZED_INT_STATE_PROVIDER:Lnet/minecraft/world/level/levelgen/feature/stateproviders/BlockStateProviderType;
+      77: return
+}

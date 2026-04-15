@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -17,7 +18,7 @@ public class PhatKaphraoFeastBlock extends FeastBlock {
     final VoxelShape PIE_SHAPE = Shapes.joinUnoptimized(PLATE_SHAPE, Block.box(2.0D, 2.0D, 2.0D, 14.0D, 4.0D, 14.0D), BooleanOp.OR);
 
     public PhatKaphraoFeastBlock() {
-        super(Properties.copy(Blocks.CAKE), ModItems.PHAT_KAPHRAO, false);
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), ModItems.PHAT_KAPHRAO, false);
     }
 
     @Override

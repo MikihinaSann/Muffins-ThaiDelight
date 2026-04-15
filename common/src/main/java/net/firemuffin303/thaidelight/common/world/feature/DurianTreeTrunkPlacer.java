@@ -1,12 +1,9 @@
 package net.firemuffin303.thaidelight.common.world.feature;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.mojang.serialization.MapCodec;
 import net.firemuffin303.thaidelight.common.registry.ModFeatures;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -24,23 +21,9 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 public class DurianTreeTrunkPlacer extends TrunkPlacer {
-    private static final Codec<UniformInt> BRANCH_START_CODEC = ExtraCodecs.validate(
-            UniformInt.CODEC,
-            uniformInt -> uniformInt.getMaxValue() - uniformInt.getMinValue() < 1
-                    ? DataResult.error(() -> "Need at least 2 blocks variation for the branch starts to fit both branches")
-                    : DataResult.success(uniformInt)
+    public static final MapCodec<DurianTreeTrunkPlacer> CODEC = MapCodec.unit(
+            new DurianTreeTrunkPlacer(5, 2, 0, UniformInt.of(-2, 0), UniformInt.of(2, 4), UniformInt.of(1, 3))
     );
-
-    public static final Codec<DurianTreeTrunkPlacer> CODEC = RecordCodecBuilder.create(instance ->{
-        return trunkPlacerParts(instance)
-                .and(instance.group(
-                        IntProvider.codec(-16,0,BRANCH_START_CODEC).fieldOf("branch_start_offset_from_top").forGetter(durianTreeTrunkPlacer -> durianTreeTrunkPlacer.branchStartOffsetFromTop),
-                        IntProvider.codec(2,16).fieldOf("branch_horizontal_length").forGetter(placer -> placer.branchLength),
-                        IntProvider.codec(1,5).fieldOf("branch_count").forGetter(placer -> placer.branchCount)
-                    )
-                )
-                .apply(instance,DurianTreeTrunkPlacer::new);
-    });
 
     private final UniformInt branchStartOffsetFromTop;
     private final IntProvider branchLength;

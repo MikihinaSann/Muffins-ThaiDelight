@@ -19,11 +19,8 @@
             }
           },
           "values": {
-            "type": "minecraft:uniform",
-            "value": {
-              "max_inclusive": 1,
-              "min_inclusive": 0
-            }
+            "max_inclusive": 1,
+            "min_inclusive": 0
           }
         },
         "directions": [

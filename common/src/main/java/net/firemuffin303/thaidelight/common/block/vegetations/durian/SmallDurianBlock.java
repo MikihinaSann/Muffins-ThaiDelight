@@ -1,5 +1,6 @@
 package net.firemuffin303.thaidelight.common.block.vegetations.durian;
 
+import com.mojang.serialization.MapCodec;
 import net.firemuffin303.muffinsmcapi.api.extension.Stackable;
 import net.firemuffin303.thaidelight.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
@@ -26,6 +27,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class SmallDurianBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock, Stackable {
+    public static final MapCodec<SmallDurianBlock> CODEC = simpleCodec(SmallDurianBlock::new);
     public static IntegerProperty STACKS = IntegerProperty.create("durians",1,3);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -36,6 +38,11 @@ public class SmallDurianBlock extends HorizontalDirectionalBlock implements Simp
                 .setValue(STACKS,1)
                 .setValue(FACING,Direction.NORTH)
         );
+    }
+
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return CODEC;
     }
 
     @Override

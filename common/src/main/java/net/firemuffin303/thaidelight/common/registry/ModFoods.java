@@ -2,6 +2,8 @@ package net.firemuffin303.thaidelight.common.registry;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.firemuffin303.thaidelight.util.PlatformUtil;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -10,6 +12,10 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class ModFoods{
+    private static net.minecraft.core.Holder<MobEffect> holder(MobEffect effect) {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect);
+    }
+
     public static final FoodProperties LIME = new FoodProperties.Builder().nutrition(4).saturationModifier(0.2F).build();
     public static final FoodProperties LIME_SLICE = new FoodProperties.Builder().nutrition(2).saturationModifier(0.1F).fast().build();
 
@@ -28,8 +34,8 @@ public class ModFoods{
     public static final FoodProperties RAW_PAPAYA = new FoodProperties.Builder().nutrition(4).saturationModifier(0.2F).build();
     public static final FoodProperties SLICED_UNRIPE_PAPAYA = new FoodProperties.Builder().nutrition(1).saturationModifier(0.1F).alwaysEdible().fast().build();
 
-    public static final FoodProperties CRAB = new FoodProperties.Builder().nutrition(2).saturationModifier(0.1F).meat().build();
-    public static final FoodProperties COOKED_CRAB = new FoodProperties.Builder().nutrition(8).saturationModifier(0.5F).meat().build();
+    public static final FoodProperties CRAB = new FoodProperties.Builder().nutrition(2).saturationModifier(0.1F).build();
+    public static final FoodProperties COOKED_CRAB = new FoodProperties.Builder().nutrition(8).saturationModifier(0.5F).build();
 
     public static final FoodProperties DRAGONFLY = addEffects(new FoodProperties.Builder().nutrition(2).saturationModifier(0.1f).alwaysEdible(),
             List.of(
@@ -39,11 +45,11 @@ public class ModFoods{
     public static final FoodProperties COOKED_DRAGONFLY = new FoodProperties.Builder().nutrition(3).saturationModifier(0.2f).alwaysEdible().build();
 
     public static final FoodProperties FISH_SAUCE = new FoodProperties.Builder().alwaysEdible()
-            .effect(() -> new MobEffectInstance(MobEffects.HUNGER,200,0),1.0f).build();
+            .effect(new MobEffectInstance(MobEffects.HUNGER,200,0),1.0f).build();
     public static final FoodProperties FERMENTED_FISH = addEffects(new FoodProperties.Builder().alwaysEdible(),
             List.of(
-                new FoodEffectSupplier(() -> new MobEffectInstance(ModMobEffects.STINKY.get(),10*20),1f),
-                new FoodEffectSupplier(() -> new MobEffectInstance(ModMobEffects.APPETITE_LOSS.get(),10*20),1f)
+                new FoodEffectSupplier(() -> new MobEffectInstance(holder(ModMobEffects.STINKY.get()),10*20),1f),
+                new FoodEffectSupplier(() -> new MobEffectInstance(holder(ModMobEffects.APPETITE_LOSS.get()),10*20),1f)
             )).build();
 
     public static final FoodProperties PAPAYA_JUICE = new FoodProperties.Builder().alwaysEdible().build();
@@ -58,26 +64,26 @@ public class ModFoods{
 
     public static final FoodProperties SOMTAM = addEffects(new FoodProperties.Builder().nutrition(14).saturationModifier(0.75F),
             List.of(
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getNourishmentEffect().get(),6000,0),1.0f)
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getNourishmentEffect().get()),6000,0),1.0f)
             )).build();
 
     public static final FoodProperties LARB = addEffects(new FoodProperties.Builder().nutrition(14).saturationModifier(0.75F),
             List.of(
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getNourishmentEffect().get(),6000,0),1.0f)
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getNourishmentEffect().get()),6000,0),1.0f)
             )).build();
 
     public static final FoodProperties CRAB_FRIED_RICE = addEffects(new FoodProperties.Builder().nutrition(16).saturationModifier(0.80F),
             List.of(
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getNourishmentEffect().get(),2400,0),1.0f),
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getNourishmentEffect().get()),2400,0),1.0f),
                     new FoodEffectSupplier(() -> new MobEffectInstance(MobEffects.WATER_BREATHING,1200,0),1.0f),
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getComfort().get(),9600,0),1.0f)
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getComfort().get()),9600,0),1.0f)
     )).build();
 
     public static final FoodProperties PHAT_KAPHRAO = addEffects(new FoodProperties.Builder()
             .nutrition(12)
             .saturationModifier(0.75f),
             List.of(
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getComfort().get(),6000,0),1.0f)
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getComfort().get()),6000,0),1.0f)
             ))
             .build();
 
@@ -85,7 +91,7 @@ public class ModFoods{
             .nutrition(12)
             .saturationModifier(0.55F),
             List.of(
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getComfort().get(),9600,0),1.0f),
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getComfort().get()),9600,0),1.0f),
                     new FoodEffectSupplier(() ->new MobEffectInstance(MobEffects.DIG_SPEED,600),1.0f)
             ))
             .build();
@@ -94,23 +100,23 @@ public class ModFoods{
             .nutrition(16)
             .saturationModifier(0.80F),
             List.of(
-                    new FoodEffectSupplier(() ->new MobEffectInstance(PlatformUtil.getNourishmentEffect().get(),2400,0),1.0f),
+                    new FoodEffectSupplier(() ->new MobEffectInstance(holder(PlatformUtil.getNourishmentEffect().get()),2400,0),1.0f),
                     new FoodEffectSupplier(() -> new MobEffectInstance(MobEffects.REGENERATION,600,0),1.0f),
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getComfort().get(),9600,0),1.0f)
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getComfort().get()),9600,0),1.0f)
             )).build();
 
     public static final FoodProperties STIR_FRIED_NOODLE = addEffects(new FoodProperties.Builder()
             .nutrition(12)
             .saturationModifier(0.55F),
             List.of(
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getComfort().get(),5000,0),1.0f)
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getComfort().get()),5000,0),1.0f)
             )).build();
 
     public static final FoodProperties DURIAN_CURRY = addEffects(new FoodProperties.Builder()
             .nutrition(12)
             .saturationModifier(0.8F),
             List.of(
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getNourishmentEffect().get(),3600,0),1.0f)
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getNourishmentEffect().get()),3600,0),1.0f)
             )).build();
 
     public static final FoodProperties DURIAN_CAKE = addEffects(new FoodProperties.Builder()
@@ -151,32 +157,32 @@ public class ModFoods{
 
     public static final FoodProperties OMELETTE = addEffects(new FoodProperties.Builder()
             .nutrition(12).saturationModifier(0.75f),List.of(
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getComfort().get(),6000,0),1.0f)
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getComfort().get()),6000,0),1.0f)
             )).build();
 
     public static final FoodProperties BASIL_OMELETTE = addEffects(new FoodProperties.Builder()
             .nutrition(12).saturationModifier(0.75f),
             List.of(
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getComfort().get(),9600,0),1.0f))
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getComfort().get()),9600,0),1.0f))
             ).build();
 
     public static final FoodProperties BAMBOO_SOUP = addEffects(new FoodProperties.Builder()
             .nutrition(10).saturationModifier(0.80f),
             List.of(
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getComfort().get(),4800,0),1.0f)
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getComfort().get()),4800,0),1.0f)
             )).build();
 
     public static final FoodProperties STEAMED_BAMBOO_SHOOT = addEffects(new FoodProperties.Builder()
             .nutrition(10).saturationModifier(0.80f),
             List.of(
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getComfort().get(),6000,0),1.0f)
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getComfort().get()),6000,0),1.0f)
             )).build();
 
     public static final FoodProperties BANANA_IN_COCONUT_MILK = addEffects(new FoodProperties.Builder()
             .nutrition(10).saturationModifier(0.90f),
             List.of(
                     new FoodEffectSupplier(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED,600,0),1.0f),
-                    new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getComfort().get(),6000,0),1.0f)
+                    new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getComfort().get()),6000,0),1.0f)
             )).build();
 
     public static final FoodProperties KHANOM_CHAN = addEffects(new FoodProperties.Builder()
@@ -189,7 +195,7 @@ public class ModFoods{
             .nutrition(3).saturationModifier(0.5F).fast(),
             List.of(
                     new FoodEffectSupplier(() ->new MobEffectInstance(MobEffects.MOVEMENT_SPEED,200,0),1.0f),
-            new FoodEffectSupplier(() -> new MobEffectInstance(PlatformUtil.getComfort().get(),3000,0),1.0f)
+            new FoodEffectSupplier(() -> new MobEffectInstance(holder(PlatformUtil.getComfort().get()),3000,0),1.0f)
                     ))
             .build();
 
@@ -206,3 +212,4 @@ public class ModFoods{
 
     public record FoodEffectSupplier(Supplier<MobEffectInstance> supplier,float chance){}
 }
+

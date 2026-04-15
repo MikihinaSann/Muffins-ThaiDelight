@@ -1,6 +1,6 @@
 package net.firemuffin303.thaidelight.common.registry.fabric;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.firemuffin303.thaidelight.ThaiDelightCommon;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -10,7 +10,7 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import java.util.function.Supplier;
 
 public class ModBlockStateProviderTypesImpl {
-    public static <P extends BlockStateProvider> Supplier<BlockStateProviderType<P>> register(String id, Codec<P> codec) {
+    public static <P extends BlockStateProvider> Supplier<BlockStateProviderType<P>> register(String id, MapCodec<P> codec) {
         BlockStateProviderType<P> blockStateProviderType = Registry.register(BuiltInRegistries.BLOCKSTATE_PROVIDER_TYPE, ThaiDelightCommon.modid(id),new BlockStateProviderType<>(codec));
         return () -> blockStateProviderType;
     }

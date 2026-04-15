@@ -1,6 +1,7 @@
 package net.firemuffin303.thaidelight.mixin.stinky;
 
 import net.firemuffin303.thaidelight.common.registry.ModMobEffects;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.npc.Villager;
@@ -18,7 +19,7 @@ public abstract class VillagerMixin {
 
     @Inject(method = "mobInteract",at = @At("HEAD"),cancellable = true)
     public void muffinsThaiDelight$mobInteract(Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResult> cir){
-        if(player.hasEffect(ModMobEffects.STINKY.get())){
+        if(player.hasEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModMobEffects.STINKY.get()))){
             if(!player.level().isClientSide){
                 this.setUnhappy();
             }

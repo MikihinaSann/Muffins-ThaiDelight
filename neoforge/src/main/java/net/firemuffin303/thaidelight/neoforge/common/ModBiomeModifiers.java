@@ -15,7 +15,7 @@ import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.neoforge.common.world.BiomeModifier;
-import net.neoforged.neoforge.common.world.NeoForgeBiomeModifiers;
+import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.List;
@@ -72,23 +72,23 @@ public class ModBiomeModifiers {
         Holder.Reference<Biome> flowerCrabBiomeTag = context.lookup(Registries.BIOME).getOrThrow(Biomes.BEACH);
         HolderSet<Biome> dragonflyBiomeTag = HolderSet.direct(context.lookup(Registries.BIOME).getOrThrow(Biomes.MANGROVE_SWAMP), context.lookup(Registries.BIOME).getOrThrow(Biomes.SWAMP));
 
-        context.register(LIME_BUSH_BIOMES, new NeoForgeBiomeModifiers.AddFeaturesBiomeModifier(limeBiomeTag, HolderSet.direct(limeBush), GenerationStep.Decoration.VEGETAL_DECORATION));
-        context.register(PEPPER_BIOME_MODIFIER, new NeoForgeBiomeModifiers.AddFeaturesBiomeModifier(pepperBiomeTag, HolderSet.direct(pepperPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
-        context.register(PAPAYA_TREE_MODIFIER, new NeoForgeBiomeModifiers.AddFeaturesBiomeModifier(papayaBiomeTag, HolderSet.direct(papayaPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
-        context.register(DURIAN_TREE_MODIFIER, new NeoForgeBiomeModifiers.AddFeaturesBiomeModifier(durianBiomeTag, HolderSet.direct(durianPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
-        context.register(SPARSE_DURIAN_TREE_MODIFIER, new NeoForgeBiomeModifiers.AddFeaturesBiomeModifier(sparseDurianBiome, HolderSet.direct(sparseDurianPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
-        context.register(MANGO_TREE_MODIFIER, new NeoForgeBiomeModifiers.AddFeaturesBiomeModifier(mangoBiomeTag, HolderSet.direct(mangoPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
-        context.register(COCONUT_TREE_MODIFIER, new NeoForgeBiomeModifiers.AddFeaturesBiomeModifier(coconutBiomeTag, HolderSet.direct(coconutPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
-        context.register(BUTTERFLY_PEA_MODIFIER, new NeoForgeBiomeModifiers.AddFeaturesBiomeModifier(butterflyPeaBiomeTag, HolderSet.direct(butterflyPeaPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
-        context.register(BASIL_MODIFIER, new NeoForgeBiomeModifiers.AddFeaturesBiomeModifier(basilPeaBiomeTag, HolderSet.direct(basilPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
-        context.register(HOLY_BASIL_MODIFIER, new NeoForgeBiomeModifiers.AddFeaturesBiomeModifier(holyBasilPeaBiomeTag, HolderSet.direct(holyBasilPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
-        context.register(ALL_BASIL_MODIFIER, new NeoForgeBiomeModifiers.AddFeaturesBiomeModifier(allBasilPeaBiomeTag, HolderSet.direct(allBasilPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(LIME_BUSH_BIOMES, new BiomeModifiers.AddFeaturesBiomeModifier(limeBiomeTag, HolderSet.direct(limeBush), GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(PEPPER_BIOME_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(pepperBiomeTag, HolderSet.direct(pepperPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(PAPAYA_TREE_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(papayaBiomeTag, HolderSet.direct(papayaPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(DURIAN_TREE_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(durianBiomeTag, HolderSet.direct(durianPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(SPARSE_DURIAN_TREE_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(sparseDurianBiome, HolderSet.direct(sparseDurianPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(MANGO_TREE_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(mangoBiomeTag, HolderSet.direct(mangoPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(COCONUT_TREE_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(coconutBiomeTag, HolderSet.direct(coconutPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(BUTTERFLY_PEA_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(butterflyPeaBiomeTag, HolderSet.direct(butterflyPeaPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(BASIL_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(basilPeaBiomeTag, HolderSet.direct(basilPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(HOLY_BASIL_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(holyBasilPeaBiomeTag, HolderSet.direct(holyBasilPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(ALL_BASIL_MODIFIER, new BiomeModifiers.AddFeaturesBiomeModifier(allBasilPeaBiomeTag, HolderSet.direct(allBasilPlaceFeature), GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(FLOWER_CRAB_BIOME_MODIFIER, new NeoForgeBiomeModifiers.AddSpawnsBiomeModifier(HolderSet.direct(flowerCrabBiomeTag), List.of(
+        context.register(FLOWER_CRAB_BIOME_MODIFIER, new BiomeModifiers.AddSpawnsBiomeModifier(HolderSet.direct(flowerCrabBiomeTag), List.of(
                 new MobSpawnSettings.SpawnerData(ModEntityTypes.FLOWER_CRAB.get(), 10, 3, 5)
         )));
 
-        context.register(DRAGONFLY_BIOME_MODIFIER, new NeoForgeBiomeModifiers.AddSpawnsBiomeModifier(dragonflyBiomeTag, List.of(
+        context.register(DRAGONFLY_BIOME_MODIFIER, new BiomeModifiers.AddSpawnsBiomeModifier(dragonflyBiomeTag, List.of(
                 new MobSpawnSettings.SpawnerData(ModEntityTypes.DRAGONFLY.get(), 2, 1, 3)
         )));
     }

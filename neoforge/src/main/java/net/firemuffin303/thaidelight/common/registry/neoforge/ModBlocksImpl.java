@@ -4,6 +4,7 @@ import net.firemuffin303.thaidelight.ThaiDelightCommon;
 import net.firemuffin303.thaidelight.neoforge.common.block.feast.*;
 import net.firemuffin303.thaidelight.neoforge.common.block.vegetation.NeoForgeBuddingButterflyPeaBlock;
 import net.firemuffin303.thaidelight.neoforge.common.block.vegetation.pepper.NeoForgeBuddingPepperBlock;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
@@ -54,7 +55,7 @@ public class ModBlocksImpl {
         return PineappleFriedRiceFeastBlock::new;
     }
 
-    public static Supplier<Block> createWildCropBlock(MobEffect stewEffect, int effectDuration, BlockBehaviour.Properties properties) {
+    public static Supplier<Block> createWildCropBlock(Holder<MobEffect> stewEffect, int effectDuration, BlockBehaviour.Properties properties) {
         return () -> new WildCropBlock(stewEffect, effectDuration, properties);
     }
 
@@ -79,19 +80,19 @@ public class ModBlocksImpl {
     }
 
     public static Supplier<Block> createStandingSignBlock(ResourceLocation resourceLocation, BlockBehaviour.Properties properties) {
-        return () -> new StandingSignBlock(properties, WoodType.OAK);
+        return () -> new StandingSignBlock(WoodType.OAK, properties);
     }
 
     public static Supplier<Block> createWallSignBlock(ResourceLocation resourceLocation, BlockBehaviour.Properties properties) {
-        return () -> new WallSignBlock(properties, WoodType.OAK);
+        return () -> new WallSignBlock(WoodType.OAK, properties);
     }
 
     public static Supplier<Block> createHangingSignBlock(ResourceLocation id, ResourceLocation id2, BlockBehaviour.Properties properties) {
-        return () -> new CeilingHangingSignBlock(properties, WoodType.OAK);
+        return () -> new CeilingHangingSignBlock(WoodType.OAK, properties);
     }
 
     public static Supplier<Block> createHangingWallSignBlock(ResourceLocation id, ResourceLocation id2, BlockBehaviour.Properties properties) {
-        return () -> new WallHangingSignBlock(properties, WoodType.OAK);
+        return () -> new WallHangingSignBlock(WoodType.OAK, properties);
     }
 
     public static Supplier<Block> getThaiDelightBlock(String id, Supplier<Block> blockSupplier) {
@@ -99,6 +100,6 @@ public class ModBlocksImpl {
     }
 
     public static BlockBehaviour.Properties dropLike(Supplier<Block> blockSupplier) {
-        return BlockBehaviour.Properties.ofFullCopy(blockSupplier.get());
+        return BlockBehaviour.Properties.of().lootFrom(blockSupplier);
     }
 }

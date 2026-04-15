@@ -1,8 +1,6 @@
 package net.firemuffin303.thaidelight.common.registry;
 
 import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 
 import java.util.ArrayList;
@@ -10,31 +8,11 @@ import java.util.List;
 
 public class ModVillagerTrades {
     public static List<ModVillagerTrade> trades(){
-        List<ModVillagerTrade> modVillagerTrades = new ArrayList<>();
-        modVillagerTrades.add(new ModVillagerTrade(VillagerProfession.FARMER,1,new MerchantOffer(new ItemStack(ModItems.PEPPER.get(),16),new ItemStack(Items.EMERALD),16,2,1)));
-        modVillagerTrades.add(new ModVillagerTrade(VillagerProfession.FARMER,1,new MerchantOffer(new ItemStack(ModItems.LIME.get(),16),new ItemStack(Items.EMERALD),16,2,1)));
-        modVillagerTrades.add(new ModVillagerTrade(VillagerProfession.FARMER,1,new MerchantOffer(new ItemStack(ModItems.PAPAYA.get(),16),new ItemStack(Items.EMERALD),16,2,1)));
-        modVillagerTrades.add(new ModVillagerTrade(VillagerProfession.FARMER,1,new MerchantOffer(new ItemStack(ModItems.RAW_PAPAYA.get(),16),new ItemStack(Items.EMERALD),16,2,1)));
-
-        modVillagerTrades.add(new ModVillagerTrade(VillagerProfession.FARMER,1,new MerchantOffer(new ItemStack(Items.EMERALD,1),new ItemStack(ModBlocks.PAPAYA_SAPLING.get(),1),8,2,1)));
-        modVillagerTrades.add(new ModVillagerTrade(VillagerProfession.FARMER,1,new MerchantOffer(new ItemStack(Items.EMERALD,1),new ItemStack(ModItems.LIME_SAPLING.get(),1),8,2,1)));
-
-
-        return modVillagerTrades;
+        return new ArrayList<>();
     }
 
     public static List<MerchantOffer> wanderTrade(){
-        List<MerchantOffer> merchantOfferList = new ArrayList<>();
-
-        merchantOfferList.add(new MerchantOffer(new ItemStack(Items.EMERALD),new ItemStack(ModBlocks.PAPAYA_SAPLING.get(),1),16,2,1));
-        merchantOfferList.add(new MerchantOffer(new ItemStack(Items.EMERALD),new ItemStack(ModItems.LIME_SAPLING.get(),1),16,2,1));
-        merchantOfferList.add(new MerchantOffer(new ItemStack(Items.EMERALD),new ItemStack(ModItems.PEPPER_SEED.get(),1),16,2,1));
-
-        merchantOfferList.add(new MerchantOffer(new ItemStack(Items.EMERALD,5), new ItemStack(ModItems.DURIAN_SAPLING.get(),1),16,2,1));
-        merchantOfferList.add(new MerchantOffer(new ItemStack(Items.EMERALD,5), new ItemStack(ModItems.MANGO_SAPLING.get(),1),16,2,1));
-        merchantOfferList.add(new MerchantOffer(new ItemStack(Items.EMERALD,5), new ItemStack(ModItems.COCONUT_SAPLING.get(),1),16,2,1));
-
-        return merchantOfferList;
+        return new ArrayList<>();
     }
 
     public record ModVillagerTrade(VillagerProfession villagerProfession, int level, MerchantOffer merchantOffer){

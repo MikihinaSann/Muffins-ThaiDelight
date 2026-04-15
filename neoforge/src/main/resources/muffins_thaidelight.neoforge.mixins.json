@@ -6,7 +6,6 @@
   "mixins": [
     "BlockFamiliesAccessor",
     "dispenser.BucketItemMixin",
-    "dyeableItem.RecipeMixin",
     "foodEffect.LivingEntityMixin",
     "foodEffect.spicy.MilkBucketItemMixin"
   ],

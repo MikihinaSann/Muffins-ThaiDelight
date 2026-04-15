@@ -1,5 +1,6 @@
 package net.firemuffin303.thaidelight.common.block.vegetations.papaya;
 
+import com.mojang.serialization.MapCodec;
 import net.firemuffin303.thaidelight.common.block.ModBlockStateProperties;
 import net.firemuffin303.thaidelight.common.registry.ModBlocks;
 import net.firemuffin303.thaidelight.common.registry.ModTags;
@@ -28,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public class PapayaLeavesStemBlock extends BushBlock implements SimpleWaterloggedBlock, BonemealableBlock {
+    public static final MapCodec<PapayaLeavesStemBlock> CODEC = simpleCodec(PapayaLeavesStemBlock::new);
     public static final DirectionProperty PAPAYA_LEAVES_FACING = ModBlockStateProperties.PAPAYA_LEAVES_FACING;
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
@@ -41,6 +43,11 @@ public class PapayaLeavesStemBlock extends BushBlock implements SimpleWaterlogge
                 .setValue(WATERLOGGED,false)
                 .setValue(PAPAYA_LEAVES_FACING,Direction.UP)
         );
+    }
+
+    @Override
+    protected MapCodec<? extends BushBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -98,7 +105,7 @@ public class PapayaLeavesStemBlock extends BushBlock implements SimpleWaterlogge
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState, boolean bl) {
+    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState) {
         Direction direction = blockState.getValue(PAPAYA_LEAVES_FACING);
         Optional<BlockPos> optional = BlockUtil.getTopConnectedBlock(levelReader, blockPos, blockState.getBlock(), direction, ModBlocks.PAPAYA_LEAVES.get());
         if (optional.isEmpty()) {

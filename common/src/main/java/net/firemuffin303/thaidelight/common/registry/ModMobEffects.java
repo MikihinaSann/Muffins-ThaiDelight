@@ -17,9 +17,18 @@ public class ModMobEffects {
     public static Supplier<MobEffect> STINKY = registerMobEffect("stinky",() -> new StinkyMobEffect(MobEffectCategory.HARMFUL,0xa5997c));
     public static Supplier<MobEffect> APPETITE_LOSS = registerMobEffect("appetite_loss",() -> new ModMobEffect(MobEffectCategory.HARMFUL,0x271e46));
 
-    public static Supplier<Potion> STENCH_POTION = registerPotion("stench",() -> new Potion(new MobEffectInstance(ModMobEffects.STINKY.get(),120*20), new MobEffectInstance(ModMobEffects.APPETITE_LOSS.get(),120*20)));
-    public static Supplier<Potion> LONG_STENCH_POTION = registerPotion("long_stench",() -> new Potion(new MobEffectInstance(ModMobEffects.STINKY.get(),300*20), new MobEffectInstance(ModMobEffects.APPETITE_LOSS.get(),300*20)));
-    public static Supplier<Potion> STRONG_STENCH_POTION = registerPotion("strong_stench",() -> new Potion(new MobEffectInstance(ModMobEffects.STINKY.get(),50*20,1), new MobEffectInstance(ModMobEffects.APPETITE_LOSS.get(),50*20,1)));
+    public static Supplier<Potion> STENCH_POTION = registerPotion("stench",() -> new Potion(
+            new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModMobEffects.STINKY.get()),120*20),
+            new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModMobEffects.APPETITE_LOSS.get()),120*20)
+    ));
+    public static Supplier<Potion> LONG_STENCH_POTION = registerPotion("long_stench",() -> new Potion(
+            new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModMobEffects.STINKY.get()),300*20),
+            new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModMobEffects.APPETITE_LOSS.get()),300*20)
+    ));
+    public static Supplier<Potion> STRONG_STENCH_POTION = registerPotion("strong_stench",() -> new Potion(
+            new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModMobEffects.STINKY.get()),50*20,1),
+            new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(ModMobEffects.APPETITE_LOSS.get()),50*20,1)
+    ));
 
 
     public static void init() {}

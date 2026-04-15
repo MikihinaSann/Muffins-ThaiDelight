@@ -24,8 +24,8 @@ public abstract class DispenseItemBehaviorMixin extends OptionalDispenseItemBeha
 
     @Inject(method = "execute",at = @At(value = "INVOKE", target = "Lnet/minecraft/core/dispenser/OptionalDispenseItemBehavior;execute(Lnet/minecraft/core/dispenser/BlockSource;Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/item/ItemStack;"), cancellable = true)
     public void muffins$takeCoconutMilk(BlockSource blockSource, ItemStack itemStack, CallbackInfoReturnable<ItemStack> cir){
-        ServerLevel serverLevel = blockSource.getLevel();
-        BlockPos blockPos = blockSource.getPos().relative(blockSource.getBlockState().getValue(DispenserBlock.FACING));
+        ServerLevel serverLevel = blockSource.level();
+        BlockPos blockPos = blockSource.pos().relative(blockSource.state().getValue(DispenserBlock.FACING));
         BlockState blockState = serverLevel.getBlockState(blockPos);
         if(blockState.is(ModBlocks.COCONUT_MILK_CAULDRON.get())){
             LayeredCauldronBlock.lowerFillLevel(blockState,serverLevel,blockPos);

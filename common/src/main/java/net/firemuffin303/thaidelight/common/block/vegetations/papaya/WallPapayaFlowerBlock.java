@@ -8,12 +8,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.SuspiciousStewEffects;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -50,14 +50,14 @@ public class WallPapayaFlowerBlock extends Block implements SimpleWaterloggedBlo
     }
 
     @Override
-    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
-        if(player.getItemInHand(interactionHand).is(Items.GLOW_INK_SAC) && !blockState.getValue(LIT)){
+    protected ItemInteractionResult useItemOn(ItemStack itemStack, BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
+        if(itemStack.is(Items.GLOW_INK_SAC) && !blockState.getValue(LIT)){
             level.setBlock(blockPos,blockState.setValue(LIT,true),2);
             level.playSound(null, blockPos, SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
 
-        return super.use(blockState, level, blockPos, player, interactionHand, blockHitResult);
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override
@@ -143,17 +143,14 @@ public class WallPapayaFlowerBlock extends Block implements SimpleWaterloggedBlo
     }
 
     @Override
-    public MobEffect getSuspiciousEffect() {
-        return MobEffects.REGENERATION;
+    public SuspiciousStewEffects getSuspiciousEffects() {
+        return new SuspiciousStewEffects(java.util.List.of(
+                new SuspiciousStewEffects.Entry(MobEffects.REGENERATION, 3 * 20)
+        ));
     }
 
     @Override
-    public int getEffectDuration() {
-        return 3*20;
-    }
-
-    @Override
-    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState, boolean bl) {
+    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState) {
         return true;
     }
 

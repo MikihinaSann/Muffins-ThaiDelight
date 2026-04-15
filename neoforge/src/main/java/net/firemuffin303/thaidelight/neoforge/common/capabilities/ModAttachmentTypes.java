@@ -12,9 +12,9 @@ public class ModAttachmentTypes {
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<SpicyData>> SPICY =
             ATTACHMENT_TYPES.register("spicy", () ->
-                    AttachmentType.builder(SpicyData::new).serialize(SpicyData.CODEC).build());
+                    AttachmentType.builder(holder -> new SpicyData()).serialize(SpicyData.CODEC).build());
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<DurianHeatData>> DURIAN_HEAT =
             ATTACHMENT_TYPES.register("durian_heat", () ->
-                    AttachmentType.builder(DurianHeatData::new).serialize(DurianHeatData.CODEC).build());
+                    AttachmentType.builder(holder -> new DurianHeatData()).serialize(DurianHeatData.CODEC).build());
 }

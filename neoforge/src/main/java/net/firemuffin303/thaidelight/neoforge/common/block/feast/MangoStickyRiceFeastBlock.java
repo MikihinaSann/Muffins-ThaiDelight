@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -22,7 +23,7 @@ public class MangoStickyRiceFeastBlock extends FeastBlock {
     };
 
     public MangoStickyRiceFeastBlock() {
-        super(Properties.copy(Blocks.CAKE), ModItems.MANGO_STICKY_RICE, false);
+        super(BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE), ModItems.MANGO_STICKY_RICE, false);
     }
 
     @Override

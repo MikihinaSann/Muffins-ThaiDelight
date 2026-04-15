@@ -12,6 +12,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -24,10 +25,9 @@ public class NeoForgeBuddingButterflyPeaBlock extends BuddingBushBlock implement
     public static final IntegerProperty BUDDING_AGE = BlockStateProperties.AGE_2;
 
     public NeoForgeBuddingButterflyPeaBlock() {
-        super(Properties.copy(WHEAT));
+        super(BlockBehaviour.Properties.ofFullCopy(WHEAT));
     }
 
-    @Override
     public BlockState getPlant(BlockGetter world, BlockPos pos) {
         return ModBlocks.BUDDING_BUTTERFLY_PEA_BLOCK.get().defaultBlockState();
     }
